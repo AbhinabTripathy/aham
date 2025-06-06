@@ -21,12 +21,6 @@ const newReleases = [
   { img: '/bhisma.png', title: 'Bhisma', author: 'Author', bg: '#7bc47f' },
   { img: '/yogi3000.png', title: 'Yogi 3000', author: 'Author', bg: '#ffb47b' },
   { img: '/vedas.png', title: 'Vedas', author: 'Author', bg: '#ffe082' },
-  { img: '/yogi3000.png', title: 'Yogi 3000', author: 'Author', bg: '#ffb47b' },
-  { img: '/vedas.png', title: 'Vedas', author: 'Author', bg: '#ffe082' },
-  { img: '/satyayug.png', title: 'Satyayug', author: 'Author', bg: '#e6e6b3' },
-  { img: '/bhisma.png', title: 'Bhisma', author: 'Author', bg: '#7bc47f' },
-  { img: '/yogi3000.png', title: 'Yogi 3000', author: 'Author', bg: '#ffb47b' },
-  { img: '/vedas.png', title: 'Vedas', author: 'Author', bg: '#ffe082' },
 ];
 
 const mostListenAudio = [
