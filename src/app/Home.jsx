@@ -44,12 +44,18 @@ const trending = [
 ];
 
 const newReleases = [
-  { img: '/anime1.png', title: 'Title', author: 'Author', bg: '#7bc47f' },
-  { img: '/anime2.png', title: 'Title', author: 'Author', bg: '#b3e0ff' },
-  { img: '/anime2.png', title: 'Title', author: 'Author', bg: '#b3e0ff' },
-  { img: '/anime1.png', title: 'Title', author: 'Author', bg: '#7bc47f' },
-  { img: '/anime1.png', title: 'Title', author: 'Author', bg: '#7bc47f' },
-  { img: '/anime2.png', title: 'Title', author: 'Author', bg: '#b3e0ff' },
+  { img: '/anime1.png', title: 'Title 1', author: 'Author 1', bg: '#7bc47f' },
+  { img: '/anime2.png', title: 'Title 2', author: 'Author 2', bg: '#b3e0ff' },
+  { img: '/anime2.png', title: 'Title 3', author: 'Author 3', bg: '#b3e0ff' },
+  { img: '/anime1.png', title: 'Title 4', author: 'Author 4', bg: '#7bc47f' },
+  { img: '/anime1.png', title: 'Title 5', author: 'Author 5', bg: '#7bc47f' },
+  { img: '/anime2.png', title: 'Title 6', author: 'Author 6', bg: '#b3e0ff' },
+  { img: '/anime1.png', title: 'Title 7', author: 'Author 7', bg: '#7bc47f' },
+  { img: '/anime2.png', title: 'Title 8', author: 'Author 8', bg: '#b3e0ff' },
+  { img: '/anime1.png', title: 'Title 9', author: 'Author 9', bg: '#7bc47f' },
+  { img: '/anime2.png', title: 'Title 10', author: 'Author 10', bg: '#b3e0ff' },
+  { img: '/anime1.png', title: 'Title 11', author: 'Author 11', bg: '#7bc47f' },
+  { img: '/anime2.png', title: 'Title 12', author: 'Author 12', bg: '#b3e0ff' },
 ];
 
 const mallItems = [
@@ -61,14 +67,21 @@ const mallItems = [
   { img: '/rudra-shirt.png', title: 'Rudra', edition: 'Blue Edition', bg: '#2196f3' },
   { img: '/jaga-shirt.png', title: 'Jaga', edition: 'Red Edition', bg: '#e57373' },
   { img: '/rudra-shirt.png', title: 'Rudra', edition: 'Green Edition', bg: '#4caf50' },
-  { img: '/jaga-shirt.png', title: 'Jaga', edition: 'Yellow Edition', bg: '#fff176' },
 ];
 
 const mostListenAudio = [
-  { img: '/satyayug.png', title: 'Satyayug', author: 'Author', bg: '#ffe082' },
-  { img: '/yogi3000.png', title: 'Yogi 3000', author: 'Author', bg: '#b3e0ff' },
-  { img: '/satyayug.png', title: 'Satyayug', author: 'Author', bg: '#ffe082' },
-  { img: '/yogi3000.png', title: 'Yogi 3000', author: 'Author', bg: '#b3e0ff' },
+  { img: '/satyayug.png', title: 'Satyayug 1', author: 'Author 1', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 1', author: 'Author 2', bg: '#b3e0ff' },
+  { img: '/satyayug.png', title: 'Satyayug 2', author: 'Author 3', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 2', author: 'Author 4', bg: '#b3e0ff' },
+  { img: '/satyayug.png', title: 'Satyayug 3', author: 'Author 5', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 3', author: 'Author 6', bg: '#b3e0ff' },
+  { img: '/satyayug.png', title: 'Satyayug 4', author: 'Author 7', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 4', author: 'Author 8', bg: '#b3e0ff' },
+  { img: '/satyayug.png', title: 'Satyayug 5', author: 'Author 9', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 5', author: 'Author 10', bg: '#b3e0ff' },
+  { img: '/satyayug.png', title: 'Satyayug 6', author: 'Author 11', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 6', author: 'Author 12', bg: '#b3e0ff' },
 ];
 
 export default function Home() {
@@ -136,26 +149,23 @@ export default function Home() {
         <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Trending</Typography></Fade>
         <Box
           sx={{
-            display: { xs: 'flex', sm: 'grid' },
-            gridTemplateColumns: { sm: 'repeat(auto-fit, minmax(150px, 1fr))' },
+            display: 'flex',
             gap: 2,
-            overflowX: { xs: 'auto', sm: 'unset' },
+            overflowX: 'auto',
             mb: 2,
-            pb: { xs: 1, sm: 0 },
+            pb: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
           }}
         >
-          {trending.map((item, idx) => (
+          {trending.slice(0, 8).map((item, idx) => (
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
-                  minWidth: { xs: 110, sm: 150 },
-                  width: { xs: 110, sm: 150 },
+                  minWidth: 'calc(12.5% - 14px)',
                   height: { xs: 140, sm: 190 },
-                  mr: { xs: 2, sm: 0 },
                   position: 'relative',
-                  flex: { xs: '0 0 auto', sm: 'unset' },
+                  flexShrink: 0,
                 }}
               >
                 <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative', bgcolor: '#fff' }}>
@@ -176,25 +186,21 @@ export default function Home() {
         <Fade in={true} timeout={700}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>New Release</Typography></Fade>
         <Box
           sx={{
-            display: { xs: 'flex', sm: 'grid' },
-            gridTemplateColumns: { sm: 'repeat(auto-fit, minmax(180px, 1fr))' },
+            display: 'flex',
             gap: 2,
-            overflowX: { xs: 'auto', sm: 'unset' },
+            overflowX: 'auto',
             mb: 2,
-            pb: { xs: 1, sm: 0 },
+            pb: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
           }}
         >
-          {newReleases.map((item, idx) => (
+          {newReleases.slice(0, 8).map((item, idx) => (
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
-                  minWidth: { xs: 180, sm: 'unset' },
-                  width: { xs: 180, sm: '100%' },
+                  minWidth: 'calc(12.5% - 14px)',
                   height: { xs: 70, sm: 100 },
-                  mr: { xs: 2, sm: 0 },
-                  flex: { xs: '0 0 auto', sm: 'unset' },
                   display: 'flex',
                   alignItems: 'center',
                   bgcolor: item.bg,
@@ -202,6 +208,7 @@ export default function Home() {
                   overflow: 'hidden',
                   boxShadow: 2,
                   position: 'relative',
+                  flexShrink: 0,
                 }}
               >
                 <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
@@ -220,25 +227,21 @@ export default function Home() {
         <Fade in={true} timeout={800}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Mall</Typography></Fade>
         <Box
           sx={{
-            display: { xs: 'flex', sm: 'grid' },
-            gridTemplateColumns: { sm: 'repeat(auto-fit, minmax(220px, 1fr))' },
+            display: 'flex',
             gap: 2,
-            overflowX: { xs: 'auto', sm: 'unset' },
+            overflowX: 'auto',
             mb: 2,
-            pb: { xs: 1, sm: 0 },
+            pb: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
           }}
         >
-          {mallItems.map((item, idx) => (
+          {mallItems.slice(0, 8).map((item, idx) => (
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
-                  minWidth: { xs: 140, sm: 220 },
-                  width: { xs: 140, sm: 220 },
+                  minWidth: 'calc(12.5% - 14px)',
                   height: { xs: 90, sm: 160 },
-                  mr: { xs: 2, sm: 0 },
-                  flex: { xs: '0 0 auto', sm: 'unset' },
                   bgcolor: item.bg,
                   borderRadius: 4,
                   display: 'flex',
@@ -247,6 +250,7 @@ export default function Home() {
                   position: 'relative',
                   overflow: 'hidden',
                   px: 1,
+                  flexShrink: 0,
                 }}
               >
                 <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 2 }}>
@@ -265,25 +269,21 @@ export default function Home() {
         <Fade in={true} timeout={900}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Most listen audio</Typography></Fade>
         <Box
           sx={{
-            display: { xs: 'flex', sm: 'grid' },
-            gridTemplateColumns: { sm: 'repeat(auto-fit, minmax(180px, 1fr))' },
+            display: 'flex',
             gap: 2,
-            overflowX: { xs: 'auto', sm: 'unset' },
+            overflowX: 'auto',
             mb: 2,
-            pb: { xs: 1, sm: 0 },
+            pb: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
           }}
         >
-          {mostListenAudio.map((item, idx) => (
+          {mostListenAudio.slice(0, 8).map((item, idx) => (
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
-                  minWidth: { xs: 180, sm: 'unset' },
-                  width: { xs: 180, sm: '100%' },
+                  minWidth: 'calc(12.5% - 14px)',
                   height: { xs: 70, sm: 100 },
-                  mr: { xs: 2, sm: 0 },
-                  flex: { xs: '0 0 auto', sm: 'unset' },
                   display: 'flex',
                   alignItems: 'center',
                   bgcolor: item.bg,
@@ -291,6 +291,7 @@ export default function Home() {
                   overflow: 'hidden',
                   boxShadow: 2,
                   position: 'relative',
+                  flexShrink: 0,
                 }}
               >
                 <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
@@ -309,17 +310,26 @@ export default function Home() {
         <Fade in={true} timeout={1000}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Most read novel</Typography></Fade>
         <Box
           sx={{
-            display: { xs: 'flex', sm: 'grid' },
-            gridTemplateColumns: { sm: 'repeat(auto-fit, minmax(180px, 1fr))' },
+            display: 'flex',
             gap: 2,
-            overflowX: { xs: 'auto', sm: 'unset' },
+            overflowX: 'auto',
+            mb: 2,
+            pb: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
           }}
         >
-          {[1, 2].map((_, idx) => (
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((_, idx) => (
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
-              <Box sx={{ bgcolor: '#d3d3d3', borderRadius: 3, height: { xs: 70, sm: 120 }, width: { xs: 180, sm: 260 }, minWidth: { xs: 180, sm: 260 }, mr: { xs: 2, sm: 0 }, flex: { xs: '0 0 auto', sm: 'unset' } }} />
+              <Box 
+                sx={{ 
+                  minWidth: 'calc(12.5% - 14px)',
+                  height: { xs: 70, sm: 120 },
+                  bgcolor: '#d3d3d3',
+                  borderRadius: 3,
+                  flexShrink: 0,
+                }} 
+              />
             </Grow>
           ))}
         </Box>

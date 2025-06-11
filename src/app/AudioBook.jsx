@@ -4,32 +4,60 @@ import Header from './Header';
 import { Box, Typography, Grid, Card, CardContent, CardMedia, Paper, Grow, Fade } from '@mui/material';
 
 const trending = [
-  { img: '/mahabharat.png', title: 'MAHABHARAT' },
-  { img: '/parshuram.png', title: 'PARSHURAM' },
-  { img: '/paika-story.png', title: 'PAIKA STORY' },
-  { img: '/gentleman-from-sirius.png', title: 'THE GENTLEMAN FROM SIRIUS' },
-  { img: '/mahabharat.png', title: 'MAHABHARAT' },
-  { img: '/parshuram.png', title: 'PARSHURAM' },
-  { img: '/paika-story.png', title: 'PAIKA STORY' },
-  { img: '/gentleman-from-sirius.png', title: 'THE GENTLEMAN FROM SIRIUS' },
+  { img: '/satyayug.png', title: 'Satyayug 1' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 1' },
+  { img: '/satyayug.png', title: 'Satyayug 2' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 2' },
+  { img: '/satyayug.png', title: 'Satyayug 3' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 3' },
+  { img: '/satyayug.png', title: 'Satyayug 4' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 4' },
+  { img: '/satyayug.png', title: 'Satyayug 5' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 5' },
+  { img: '/satyayug.png', title: 'Satyayug 6' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 6' },
+  { img: '/satyayug.png', title: 'Satyayug 7' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 7' },
+  { img: '/satyayug.png', title: 'Satyayug 8' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 8' },
 ];
 
 const newReleases = [
-  { img: '/yogi3000.png', title: 'Yogi 3000', author: 'Author', bg: '#ffb47b' },
-  { img: '/vedas.png', title: 'Vedas', author: 'Author', bg: '#ffe082' },
-  { img: '/satyayug.png', title: 'Satyayug', author: 'Author', bg: '#e6e6b3' },
-  { img: '/bhisma.png', title: 'Bhisma', author: 'Author', bg: '#7bc47f' },
-  { img: '/yogi3000.png', title: 'Yogi 3000', author: 'Author', bg: '#ffb47b' },
-  { img: '/vedas.png', title: 'Vedas', author: 'Author', bg: '#ffe082' },
+  { img: '/anime1.png', title: 'Title 1', author: 'Author 1', bg: '#7bc47f' },
+  { img: '/anime2.png', title: 'Title 2', author: 'Author 2', bg: '#b3e0ff' },
+  { img: '/anime2.png', title: 'Title 3', author: 'Author 3', bg: '#b3e0ff' },
+  { img: '/anime1.png', title: 'Title 4', author: 'Author 4', bg: '#7bc47f' },
+  { img: '/anime1.png', title: 'Title 5', author: 'Author 5', bg: '#7bc47f' },
+  { img: '/anime2.png', title: 'Title 6', author: 'Author 6', bg: '#b3e0ff' },
+  { img: '/anime1.png', title: 'Title 7', author: 'Author 7', bg: '#7bc47f' },
+  { img: '/anime2.png', title: 'Title 8', author: 'Author 8', bg: '#b3e0ff' },
+  { img: '/anime1.png', title: 'Title 9', author: 'Author 9', bg: '#7bc47f' },
+  { img: '/anime2.png', title: 'Title 10', author: 'Author 10', bg: '#b3e0ff' },
+  { img: '/anime1.png', title: 'Title 11', author: 'Author 11', bg: '#7bc47f' },
+  { img: '/anime2.png', title: 'Title 12', author: 'Author 12', bg: '#b3e0ff' },
+  { img: '/anime1.png', title: 'Title 13', author: 'Author 13', bg: '#7bc47f' },
+  { img: '/anime2.png', title: 'Title 14', author: 'Author 14', bg: '#b3e0ff' },
+  { img: '/anime1.png', title: 'Title 15', author: 'Author 15', bg: '#7bc47f' },
+  { img: '/anime2.png', title: 'Title 16', author: 'Author 16', bg: '#b3e0ff' },
 ];
 
 const mostListenAudio = [
-  { img: '/barbarik.png', title: 'BARBARIK', author: 'THE LAST OATH', desc: 'The son of Ghatotkacha. The vow that halted a war.' },
-  { img: '/kanjipani-ghati.png', title: 'THE FIRE SPIRIT OF KANJIPANI GHATI', author: '', desc: 'The forest whisper, The mountain watches.' },
-  { img: '/bakshi.png', title: 'BAKSHI', author: 'THE SWORD OF REBELLION', desc: 'Before 1857, there was 1817.' },
-  { img: '/barbarik.png', title: 'BARBARIK', author: '', desc: 'The vow that halted a war.' },
-  { img: '/barbarik.png', title: 'BARBARIK', author: 'THE LAST OATH', desc: 'The son of Ghatotkacha. The vow that halted a war.' },
-  { img: '/kanjipani-ghati.png', title: 'THE FIRE SPIRIT OF KANJIPANI GHATI', author: '', desc: 'The forest whisper, The mountain watches.' },
+  { img: '/satyayug.png', title: 'Satyayug 1', author: 'Author 1', desc: 'Description 1', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 1', author: 'Author 2', desc: 'Description 2', bg: '#b3e0ff' },
+  { img: '/satyayug.png', title: 'Satyayug 2', author: 'Author 3', desc: 'Description 3', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 2', author: 'Author 4', desc: 'Description 4', bg: '#b3e0ff' },
+  { img: '/satyayug.png', title: 'Satyayug 3', author: 'Author 5', desc: 'Description 5', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 3', author: 'Author 6', desc: 'Description 6', bg: '#b3e0ff' },
+  { img: '/satyayug.png', title: 'Satyayug 4', author: 'Author 7', desc: 'Description 7', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 4', author: 'Author 8', desc: 'Description 8', bg: '#b3e0ff' },
+  { img: '/satyayug.png', title: 'Satyayug 5', author: 'Author 9', desc: 'Description 9', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 5', author: 'Author 10', desc: 'Description 10', bg: '#b3e0ff' },
+  { img: '/satyayug.png', title: 'Satyayug 6', author: 'Author 11', desc: 'Description 11', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 6', author: 'Author 12', desc: 'Description 12', bg: '#b3e0ff' },
+  { img: '/satyayug.png', title: 'Satyayug 7', author: 'Author 13', desc: 'Description 13', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 7', author: 'Author 14', desc: 'Description 14', bg: '#b3e0ff' },
+  { img: '/satyayug.png', title: 'Satyayug 8', author: 'Author 15', desc: 'Description 15', bg: '#ffe082' },
+  { img: '/yogi3000.png', title: 'Yogi 3000 8', author: 'Author 16', desc: 'Description 16', bg: '#b3e0ff' },
 ];
 
 export default function AudioBook() {
@@ -43,12 +71,11 @@ export default function AudioBook() {
         <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Trending</Typography></Fade>
         <Box
           sx={{
-            display: { xs: 'flex', sm: 'grid' },
-            gridTemplateColumns: { sm: 'repeat(auto-fit, minmax(150px, 1fr))' },
+            display: 'flex',
             gap: 2,
-            overflowX: { xs: 'auto', sm: 'unset' },
+            overflowX: 'auto',
             mb: 2,
-            pb: { xs: 1, sm: 0 },
+            pb: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
           }}
@@ -57,12 +84,10 @@ export default function AudioBook() {
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
-                  minWidth: { xs: 110, sm: 150 },
-                  width: { xs: 110, sm: 150 },
+                  minWidth: idx === 3 || idx === 7 ? 'calc(10% - 14px)' : 'calc(12.5% - 14px)',
                   height: { xs: 140, sm: 190 },
-                  mr: { xs: 2, sm: 0 },
                   position: 'relative',
-                  flex: { xs: '0 0 auto', sm: 'unset' },
+                  flexShrink: 0,
                 }}
               >
                 <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative', bgcolor: '#fff' }}>
@@ -78,17 +103,17 @@ export default function AudioBook() {
             </Grow>
           ))}
         </Box>
+
         {/* New Release */}
         <Box sx={{ mt: 5 }} />
         <Fade in={true} timeout={700}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>New Release</Typography></Fade>
         <Box
           sx={{
-            display: { xs: 'flex', sm: 'grid' },
-            gridTemplateColumns: { sm: 'repeat(auto-fit, minmax(180px, 1fr))' },
+            display: 'flex',
             gap: 2,
-            overflowX: { xs: 'auto', sm: 'unset' },
+            overflowX: 'auto',
             mb: 2,
-            pb: { xs: 1, sm: 0 },
+            pb: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
           }}
@@ -97,11 +122,8 @@ export default function AudioBook() {
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
-                  minWidth: { xs: 180, sm: 180 },
-                  width: { xs: 180, sm: 180 },
+                  minWidth: idx === 3 || idx === 7 ? 'calc(10% - 14px)' : 'calc(12.5% - 14px)',
                   height: { xs: 70, sm: 100 },
-                  mr: { xs: 2, sm: 0 },
-                  flex: { xs: '0 0 auto', sm: 'unset' },
                   display: 'flex',
                   alignItems: 'center',
                   bgcolor: item.bg,
@@ -109,6 +131,7 @@ export default function AudioBook() {
                   overflow: 'hidden',
                   boxShadow: 2,
                   position: 'relative',
+                  flexShrink: 0,
                 }}
               >
                 <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
@@ -122,17 +145,17 @@ export default function AudioBook() {
             </Grow>
           ))}
         </Box>
+
         {/* Most listen audio */}
         <Box sx={{ mt: 5 }} />
         <Fade in={true} timeout={800}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Most listen audio</Typography></Fade>
         <Box
           sx={{
-            display: { xs: 'flex', sm: 'grid' },
-            gridTemplateColumns: { sm: 'repeat(auto-fit, minmax(180px, 1fr))' },
+            display: 'flex',
             gap: 2,
-            overflowX: { xs: 'auto', sm: 'unset' },
+            overflowX: 'auto',
             mb: 2,
-            pb: { xs: 1, sm: 0 },
+            pb: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
           }}
@@ -141,11 +164,9 @@ export default function AudioBook() {
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
-                  minWidth: { xs: 140, sm: 180 },
-                  width: { xs: 140, sm: 180 },
+                  minWidth: idx === 0 || idx === 1 || idx === 4 || idx === 5 ? 'calc(10% - 14px)' : 'calc(12.5% - 14px)',
                   height: { xs: 180, sm: 260 },
-                  mr: { xs: 2, sm: 0 },
-                  flex: { xs: '0 0 auto', sm: 'unset' },
+                  flexShrink: 0,
                 }}
               >
                 <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative', bgcolor: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
