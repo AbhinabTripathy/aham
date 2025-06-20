@@ -154,7 +154,7 @@ export default function Mall() {
         <div className="product-grid">
           {Array.from({ length: 8 }).map((_, idx) => (
             <div key={idx} className="product-card tshirt-card">
-              <img src={mallImg.src} alt="Tshirt" style={{ width: 160, height: 160, objectFit: 'contain', marginBottom: 16 }} />
+              <img src={mallImg.src} alt="Tshirt" style={{ width: 80, height: 80, objectFit: 'contain', marginBottom: 16 }} />
             </div>
           ))}
         </div>

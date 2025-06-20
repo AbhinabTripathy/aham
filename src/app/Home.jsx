@@ -9,6 +9,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import storyOfIndia from './assets/images/Story of India Retold .png';
 import panchatantra from './assets/images/Panchatantra.png';
 import shunya from './assets/images/shunya.jpg';
+import paika from './assets/images/Paika.png';
+import Link from 'next/link';
 
 const bannerSlides = [
   {
@@ -82,6 +84,23 @@ const mostListenAudio = [
   { img: '/yogi3000.png', title: 'Yogi 3000 5', author: 'Author 10', bg: '#b3e0ff' },
   { img: '/satyayug.png', title: 'Satyayug 6', author: 'Author 11', bg: '#ffe082' },
   { img: '/yogi3000.png', title: 'Yogi 3000 6', author: 'Author 12', bg: '#b3e0ff' },
+];
+
+const mostReadNovel = [
+  { id: 1, img: paika, title: 'Paika Revolution' },
+  { id: 2, img: paika, title: 'Paika Revolution' },
+  { id: 3, img: paika, title: 'Paika Revolution' },
+  { id: 4, img: paika, title: 'Paika Revolution' },
+  { id: 5, img: paika, title: 'Paika Revolution' },
+  { id: 6, img: paika, title: 'Paika Revolution' },
+  { id: 7, img: paika, title: 'Paika Revolution' },
+  { id: 8, img: paika, title: 'Paika Revolution' },
+  { id: 9, img: paika, title: 'Paika Revolution' },
+  { id: 10, img: paika, title: 'Paika Revolution' },
+  { id: 11, img: paika, title: 'Paika Revolution' },
+  { id: 12, img: paika, title: 'Paika Revolution' },
+  { id: 13, img: paika, title: 'Paika Revolution' },
+  { id: 14, img: paika, title: 'Paika Revolution' },
 ];
 
 export default function Home() {
@@ -319,17 +338,22 @@ export default function Home() {
             '&::-webkit-scrollbar': { display: 'none' },
           }}
         >
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((_, idx) => (
+          {mostReadNovel.slice(0, 8).map((item, idx) => (
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
-              <Box 
-                sx={{ 
-                  minWidth: 'calc(12.5% - 14px)',
-                  height: { xs: 70, sm: 120 },
-                  bgcolor: '#d3d3d3',
-                  borderRadius: 3,
-                  flexShrink: 0,
-                }} 
-              />
+              <Link href={`/novel/${item.id}`} passHref>
+                <Box
+                  sx={{
+                    minWidth: 'calc(12.5% - 14px)',
+                    height: { xs: 180, sm: 260 },
+                    flexShrink: 0,
+                    textDecoration: 'none',
+                  }}
+                >
+                  <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative' }}>
+                    <CardMedia component="img" image={item.img?.src ? item.img.src : item.img} alt={item.title} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </Card>
+                </Box>
+              </Link>
             </Grow>
           ))}
         </Box>
