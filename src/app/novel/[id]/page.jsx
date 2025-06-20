@@ -13,18 +13,19 @@ import preview5 from '../../assets/images/Preview 5.jpeg';
 import preview6 from '../../assets/images/Preview 6.jpeg';
 import preview7 from '../../assets/images/Preview 7.jpeg';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const episodes = [
-  { num: 1, title: 'Gajapati Legacy', img: paika.src },
-  { num: 2, title: 'The Siege of Sovereignty', img: paika.src },
-  { num: 3, "title": "The Rajguru's Wrath", img: paika.src },
-  { num: 4, title: 'The Oppression of Empire', img: paika.src },
-  { num: 5, title: 'The Making of a Rebel', img: paika.src },
-  { num: 6, title: 'The Rebellion Erupts', img: paika.src },
-  { num: 7, title: 'The People Rise', img: paika.src },
-  { num: 8, title: 'The Aftermath Begins', img: paika.src },
-  { num: 9, title: 'Guerrilla Years', img: paika.src },
-  { num: 10, title: 'The End and the Echo', img: paika.src },
+  { id: 1, num: 1, title: 'Gajapati Legacy', img: paika.src },
+  { id: 2, num: 2, title: 'The Siege of Sovereignty', img: paika.src },
+  { id: 3, "title": "The Rajguru's Wrath", img: paika.src },
+  { id: 4, num: 4, title: 'The Oppression of Empire', img: paika.src },
+  { id: 5, num: 5, title: 'The Making of a Rebel', img: paika.src },
+  { id: 6, num: 6, title: 'The Rebellion Erupts', img: paika.src },
+  { id: 7, num: 7, title: 'The People Rise', img: paika.src },
+  { id: 8, num: 8, title: 'The Aftermath Begins', img: paika.src },
+  { id: 9, num: 9, title: 'Guerrilla Years', img: paika.src },
+  { id: 10, num: 10, title: 'The End and the Echo', img: paika.src },
 ];
 
 export default function NovelDetailPage() {
@@ -62,12 +63,12 @@ export default function NovelDetailPage() {
               zIndex: 1,
             }}
           />
-          <IconButton onClick={() => router.back()} sx={{ color: 'white', zIndex: 2, position: 'absolute', top: 16, left: 16 }}>
+          <IconButton onClick={() => router.back()} sx={{ color: 'white', zIndex: 2, position: 'absolute', top: { xs: 8, sm: 16 }, left: { xs: 8, sm: 16 } }}>
             <ArrowBackIcon />
           </IconButton>
-          <Box sx={{ zIndex: 2, p: 2, alignSelf: 'flex-start', mt: 'auto' }}>
-            <Typography variant="h4" fontWeight="bold">PAIKA REVOLUTION</Typography>
-            <Typography variant="subtitle1">By Vinit kumar</Typography>
+          <Box sx={{ zIndex: 2, p: { xs: 2, sm: 3 }, alignSelf: 'flex-start', mt: 'auto' }}>
+            <Typography variant="h4" fontWeight="bold" sx={{ fontSize: { xs: '1.75rem', sm: '2.125rem' } }}>PAIKA REVOLUTION</Typography>
+            <Typography variant="subtitle1" sx={{ fontSize: { xs: '0.9rem', sm: '1rem' } }}>By Vinit kumar</Typography>
           </Box>
         </Box>
         <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
@@ -77,21 +78,8 @@ export default function NovelDetailPage() {
             aria-label="episodes and preview tabs"
             variant="fullWidth"
             indicatorColor="primary"
-            sx={{
-              '& .MuiTabs-indicator': {
-                backgroundColor: '#1976d2',
-                height: '4px',
-              },
-               '& .MuiTab-root': {
-                textTransform: 'none',
-                fontWeight: 'bold',
-                fontSize: '1rem',
-                color: 'text.secondary',
-              },
-              '& .Mui-selected': {
-                color: '#1976d2 !important',
-              }
-            }}
+            textColor="primary"
+            sx={{ borderBottom: 1, borderColor: 'divider' }}
           >
             <Tab label="Episodes" />
             <Tab label="Preview" />
@@ -103,10 +91,20 @@ export default function NovelDetailPage() {
         {tabValue === 0 && (
           <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0 }}>
             {episodes.map((episode, index) => (
-              <React.Fragment key={episode.num}>
-                <ListItem alignItems="center" sx={{ py: 2, px: 2 }}>
+              <Link href={`/novel/1/${episode.id}`} passHref key={episode.id}>
+                <ListItem
+                  alignItems="center"
+                  sx={{
+                    py: { xs: 1.5, sm: 2 },
+                    px: { xs: 1.5, sm: 2 },
+                    cursor: 'pointer',
+                    '&:hover': {
+                      backgroundColor: 'action.hover',
+                    },
+                  }}
+                >
                   <ListItemAvatar>
-                    <Avatar variant="rounded" src={episode.img} sx={{ width: {xs: 60, sm: 80}, height: {xs: 60, sm: 80}, mr: 2 }} />
+                    <Avatar variant="rounded" src={episode.img} sx={{ width: { xs: 60, sm: 80 }, height: { xs: 60, sm: 80 }, mr: 2 }} />
                   </ListItemAvatar>
                   <ListItemText
                     primary={`Episode ${episode.num}`}
@@ -125,7 +123,7 @@ export default function NovelDetailPage() {
                   />
                 </ListItem>
                 {index < episodes.length - 1 && <Divider variant="inset" component="li" />}
-              </React.Fragment>
+              </Link>
             ))}
           </List>
         )}
