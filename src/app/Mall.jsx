@@ -34,6 +34,23 @@ const banners = [
   },
 ];
 
+const products = [
+  { img: 'https://via.placeholder.com/120x120?text=Black+bracelet', name: 'Black\nbracelet' },
+  { img: 'https://via.placeholder.com/120x120?text=LEGO+Rath', name: 'LEGO\nRath' },
+  { img: 'https://via.placeholder.com/120x120?text=bracelet', name: 'bracelet' },
+  { img: 'https://via.placeholder.com/120x120?text=Rudraksha', name: 'Rudraksha' },
+  { img: 'https://via.placeholder.com/120x120?text=Wooden+Beads', name: 'Wooden Beads' },
+  { img: 'https://via.placeholder.com/120x120?text=Gemstone+Bracelet', name: 'Gemstone Bracelet' },
+  { img: 'https://via.placeholder.com/120x120?text=Silver+Bracelet', name: 'Silver Bracelet' },
+  { img: 'https://via.placeholder.com/120x120?text=Gold+Bracelet', name: 'Gold Bracelet' },
+];
+const duplicatedProducts = [...products, ...products];
+
+const tshirts = Array.from({ length: 8 }).map(() => ({
+  img: mallImg.src,
+}));
+const duplicatedTshirts = [...tshirts, ...tshirts];
+
 export default function Mall() {
   const [current, setCurrent] = useState(0);
   const timeoutRef = useRef(null);
@@ -124,24 +141,17 @@ export default function Mall() {
       {/* Products Section */}
       <div style={{ width: '100%', marginTop: 40, padding: '0 2vw' }}>
         <div style={{ fontSize: 32, fontWeight: 700, marginBottom: 24, letterSpacing: 0.5, color: '#222', fontFamily: 'inherit' }}>
-          Prouducts
+          Products
         </div>
-        <div className="product-grid">
-          {[
-            { img: 'https://via.placeholder.com/120x120?text=Black+bracelet', name: 'Black\nbracelet' },
-            { img: 'https://via.placeholder.com/120x120?text=LEGO+Rath', name: 'LEGO\nRath' },
-            { img: 'https://via.placeholder.com/120x120?text=bracelet', name: 'bracelet' },
-            { img: 'https://via.placeholder.com/120x120?text=Rudraksha', name: 'Rudraksha' },
-            { img: 'https://via.placeholder.com/120x120?text=Wooden+Beads', name: 'Wooden Beads' },
-            { img: 'https://via.placeholder.com/120x120?text=Gemstone+Bracelet', name: 'Gemstone Bracelet' },
-            { img: 'https://via.placeholder.com/120x120?text=Silver+Bracelet', name: 'Silver Bracelet' },
-            { img: 'https://via.placeholder.com/120x120?text=Gold+Bracelet', name: 'Gold Bracelet' },
-          ].map((item, idx) => (
-            <div key={idx} className="product-card">
-              <img src={item.img} alt={item.name.replace(/<br\/>/g, ' ')} style={{ width: 120, height: 120, objectFit: 'contain', marginBottom: 16 }} />
-              <div style={{ fontSize: 20, fontWeight: 500, color: '#222', textAlign: 'center', whiteSpace: 'pre-line' }}>{item.name}</div>
-            </div>
-          ))}
+        <div className="animated-grid-container">
+          <div className="product-grid" style={{ animation: 'slide 60s linear infinite' }}>
+            {duplicatedProducts.map((item, idx) => (
+              <div key={idx} className="product-card">
+                <img src={item.img} alt={item.name.replace(/<br\/>/g, ' ')} style={{ width: 120, height: 120, objectFit: 'contain', marginBottom: 16 }} />
+                <div style={{ fontSize: 20, fontWeight: 500, color: '#222', textAlign: 'center', whiteSpace: 'pre-line' }}>{item.name}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       {/* LEGO HANUMAN Banner Slider Section */}
@@ -151,28 +161,50 @@ export default function Mall() {
         <div style={{ fontSize: 32, fontWeight: 700, marginBottom: 24, letterSpacing: 0.5, color: '#222', fontFamily: 'inherit' }}>
           Tshirts
         </div>
-        <div className="product-grid">
-          {Array.from({ length: 8 }).map((_, idx) => (
-            <div key={idx} className="product-card tshirt-card">
-              <img src={mallImg.src} alt="Tshirt" style={{ width: 80, height: 80, objectFit: 'contain', marginBottom: 16 }} />
-            </div>
-          ))}
+        <div className="animated-grid-container">
+          <div className="product-grid" style={{ animation: 'slide 40s linear infinite' }}>
+            {duplicatedTshirts.map((item, idx) => (
+              <div key={idx} className="product-card tshirt-card">
+                <img src={item.img} alt="Tshirt" style={{ width: 80, height: 80, objectFit: 'contain', marginBottom: 16 }} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <style jsx>{`
+        @keyframes slide {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-50%);
+          }
+        }
         @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animated-grid-container {
+          overflow: hidden;
+          -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+          mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        }
+        .animated-grid-container:hover .product-grid {
+          animation-play-state: paused;
         }
         .product-grid {
           display: flex;
-          flex-wrap: wrap;
           gap: 2vw;
-          justify-content: flex-start;
-          width: 100%;
+          width: max-content;
         }
         .product-card {
-          background: #E0E0E0;
+          background: #e0e0e0;
           border-radius: 16px;
           min-width: 110px;
           max-width: 150px;
@@ -203,7 +235,7 @@ export default function Mall() {
           line-height: 1.1;
         }
         .tshirt-card {
-          background: #E5E5E5;
+          background: #e5e5e5;
         }
         @media (max-width: 1100px) {
           .product-grid {
@@ -224,17 +256,11 @@ export default function Mall() {
           }
         }
         @media (max-width: 800px) {
-          .product-grid {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            gap: 12px;
+          .animated-grid-container {
             padding-bottom: 8px;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
           }
-          .product-grid::-webkit-scrollbar {
-            display: none;
+          .product-grid {
+            gap: 12px;
           }
           .product-card {
             min-width: 90px;
