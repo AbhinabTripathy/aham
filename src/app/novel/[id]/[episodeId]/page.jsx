@@ -48,20 +48,22 @@ export default function EpisodeReaderPage() {
           position: 'sticky',
           top: 0,
           zIndex: 10,
-          bgcolor: 'white',
+          background: 'linear-gradient(45deg, #1A237E 0%, #283593 100%)',
+          color: 'white',
           display: 'flex',
           alignItems: 'center',
-          p: 1,
+          p: { xs: 1, sm: 1.5 },
+          borderRadius: 0,
         }}
       >
-        <IconButton onClick={() => router.back()}>
+        <IconButton onClick={() => router.back()} sx={{ color: 'white' }}>
           <ArrowBackIcon />
         </IconButton>
-        <Box sx={{ ml: 2 }}>
-          <Typography variant="h6" fontWeight="bold">
+        <Box sx={{ ml: { xs: 1, sm: 2 } }}>
+          <Typography variant="h6" fontWeight="bold" sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}>
             {episode.title}
           </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
+          <Typography variant="subtitle1" sx={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: { xs: '0.8rem', sm: '1rem' } }}>
             Episode {episode.num}
           </Typography>
         </Box>
