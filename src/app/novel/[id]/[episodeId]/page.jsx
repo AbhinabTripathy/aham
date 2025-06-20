@@ -4,6 +4,14 @@ import { Box, Typography, IconButton, Paper } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter, useParams } from 'next/navigation';
 import paika from '../../../assets/images/Paika.png';
+import previewMain from '../../../assets/images/Preview Main.png';
+import preview1 from '../../../assets/images/Previw1.jpeg';
+import preview2 from '../../../assets/images/Preview 2.jpeg';
+import preview3 from '../../../assets/images/Preview 3.jpeg';
+import preview4 from '../../../assets/images/Preview 4.jpeg';
+import preview5 from '../../../assets/images/Preview 5.jpeg';
+import preview6 from '../../../assets/images/Preview 6.jpeg';
+import preview7 from '../../../assets/images/Preview 7.jpeg';
 
 const episodes = [
   { id: 1, num: 1, title: 'Gajapati Legacy', img: paika.src },
@@ -18,16 +26,31 @@ const episodes = [
   { id: 10, num: 10, title: 'The End and the Echo', img: paika.src },
 ];
 
-const comicPages = Array.from({ length: 10 }, (_, i) => ({
-  id: i + 1,
-  img: paika.src,
-}));
-
 export default function EpisodeReaderPage() {
   const router = useRouter();
   const params = useParams();
   const episodeId = parseInt(params.episodeId, 10);
   const episode = episodes.find((e) => e.id === episodeId);
+
+  let comicPages = [];
+
+  if (episodeId === 2) {
+    comicPages = [
+      { id: 1, img: previewMain.src },
+      { id: 2, img: preview1.src },
+      { id: 3, img: preview2.src },
+      { id: 4, img: preview3.src },
+      { id: 5, img: preview4.src },
+      { id: 6, img: preview5.src },
+      { id: 7, img: preview6.src },
+      { id: 8, img: preview7.src },
+    ];
+  } else {
+    comicPages = Array.from({ length: 10 }, (_, i) => ({
+      id: i + 1,
+      img: paika.src,
+    }));
+  }
 
   if (!episode) {
     return (
