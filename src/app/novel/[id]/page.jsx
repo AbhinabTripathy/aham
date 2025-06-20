@@ -4,6 +4,14 @@ import React, { useState } from 'react';
 import { Box, Typography, IconButton, Tabs, Tab, List, ListItem, ListItemAvatar, Avatar, ListItemText, Divider, Paper } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import paika from '../../assets/images/Paika.png';
+import previewMain from '../../assets/images/Preview Main.png';
+import preview1 from '../../assets/images/Previw1.jpeg';
+import preview2 from '../../assets/images/Preview 2.jpeg';
+import preview3 from '../../assets/images/Preview 3.jpeg';
+import preview4 from '../../assets/images/Preview 4.jpeg';
+import preview5 from '../../assets/images/Preview 5.jpeg';
+import preview6 from '../../assets/images/Preview 6.jpeg';
+import preview7 from '../../assets/images/Preview 7.jpeg';
 import { useRouter } from 'next/navigation';
 
 const episodes = [
@@ -123,8 +131,15 @@ export default function NovelDetailPage() {
         )}
 
         {tabValue === 1 && (
-          <Box sx={{ p: 3 }}>
-            <Typography>The Paika Bidroha, also known as the Paika Rebellion, was an armed rebellion against the British East India Company's rule in Odisha in 1817. The Paikas were the traditional landed militia of Odisha and enjoyed rent-free land tenures for their military service and policing functions on a hereditary basis. The rebellion was led by Bakshi Jagabandhu Bidyadhar Mohapatra Bhramarabar Ray, the former Buxi or commander of the forces of the Raja of Khurda. It is now projected as the "first war of independence".</Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box component="img" src={previewMain.src} alt="Preview Main" sx={{ width: '100%', height: 'auto' }} />
+            <Box component="img" src={preview1.src} alt="Preview 1" sx={{ width: '100%', height: 'auto' }} />
+            <Box component="img" src={preview2.src} alt="Preview 2" sx={{ width: '100%', height: 'auto' }} />
+            <Box component="img" src={preview3.src} alt="Preview 3" sx={{ width: '100%', height: 'auto' }} />
+            <Box component="img" src={preview4.src} alt="Preview 4" sx={{ width: '100%', height: 'auto' }} />
+            <Box component="img" src={preview5.src} alt="Preview 5" sx={{ width: '100%', height: 'auto' }} />
+            <Box component="img" src={preview6.src} alt="Preview 6" sx={{ width: '100%', height: 'auto' }} />
+            <Box component="img" src={preview7.src} alt="Preview 7" sx={{ width: '100%', height: 'auto' }} />
           </Box>
         )}
       </Box>
