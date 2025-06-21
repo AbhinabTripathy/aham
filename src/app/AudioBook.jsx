@@ -15,7 +15,7 @@ const trending = [
   { img: '/satyayug.png', title: 'Satyayug 5' },
   { img: '/yogi3000.png', title: 'Yogi 3000 5' },
 ];
-const duplicatedTrending = [...trending, ...trending];
+const duplicatedTrending = [...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending];
 
 const newReleases = [
   { img: '/anime1.png', title: 'Title 1', author: 'Author 1', bg: '#7bc47f' },
@@ -30,7 +30,7 @@ const newReleases = [
   { img: '/anime1.png', title: 'Title 15', author: 'Author 15', bg: '#7bc47f' },
   // { img: '/anime2.png', title: 'Title 16', author: 'Author 16', bg: '#b3e0ff' },
 ];
-const duplicatedNewReleases = [...newReleases, ...newReleases];
+const duplicatedNewReleases = [...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases];
 
 const mostListenAudio = [
   { img: '/satyayug.png', title: 'Satyayug 1', author: 'Author 1', desc: 'Description 1', bg: '#ffe082' },
@@ -44,7 +44,7 @@ const mostListenAudio = [
   { img: '/satyayug.png', title: 'Satyayug 5', author: 'Author 9', desc: 'Description 9', bg: '#ffe082' },
   { img: '/yogi3000.png', title: 'Yogi 3000 5', author: 'Author 10', desc: 'Description 10', bg: '#b3e0ff' },
 ];
-const duplicatedMostListenAudio = [...mostListenAudio, ...mostListenAudio];
+const duplicatedMostListenAudio = [...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio];
 
 export default function AudioBook() {
   return (
@@ -55,135 +55,122 @@ export default function AudioBook() {
         {/* Trending */}
         <Box sx={{ mt: 5 }} />
         <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Trending</Typography></Fade>
-        <Box sx={{ overflow: 'hidden', mb: 2, pb: 1 }}>
-          <Box
-            sx={{
-              display: 'flex',
-              width: 'max-content',
-              gap: 2,
-              animation: 'slide 45s linear infinite',
-              '&:hover': {
-                animationPlayState: 'paused',
-              },
-            }}
-          >
-            {duplicatedTrending.map((item, idx) => (
-              <Grow in={true} timeout={400 + idx * 80} key={idx}>
-                <Box
-                  sx={{
-                    minWidth: { xs: 80, sm: 120 },
-                    height: { xs: 140, sm: 190 },
-                    position: 'relative',
-                    flexShrink: 0,
-                  }}
-                >
-                  <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative', bgcolor: '#fff' }}>
-                    <CardMedia component="img" image={item.img} alt={item.title} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    <Box sx={{ position: 'absolute', bottom: 8, left: 8, right: 8, px: 1, py: 0.5, bgcolor: 'rgba(255,255,255,0.85)', borderRadius: 1 }}>
-                      <Typography variant="subtitle2" sx={{ color: '#111', fontWeight: 700, fontSize: 12, textAlign: 'center', lineHeight: 1.2 }}>{item.title}</Typography>
-                    </Box>
-                  </Card>
-                  <Box sx={{ position: 'absolute', bottom: -10, left: -8, fontWeight: 900, fontSize: { xs: 22, sm: 30 }, color: '#111', lineHeight: 1, zIndex: 2, background: 'rgba(255,255,255,0.95)', borderRadius: '50%', width: { xs: 30, sm: 38 }, height: { xs: 30, sm: 38 }, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 2 }}>
-                    {(idx % trending.length) + 1}
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            overflowX: 'auto',
+            mb: 2,
+            pb: 1,
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            scrollBehavior: 'smooth',
+          }}
+        >
+          {duplicatedTrending.map((item, idx) => (
+            <Grow in={true} timeout={400 + idx * 80} key={idx}>
+              <Box
+                sx={{
+                  minWidth: { xs: 80, sm: 120 },
+                  height: { xs: 140, sm: 190 },
+                  position: 'relative',
+                  flexShrink: 0,
+                }}
+              >
+                <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative', bgcolor: '#fff' }}>
+                  <CardMedia component="img" image={item.img} alt={item.title} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <Box sx={{ position: 'absolute', bottom: 8, left: 8, right: 8, px: 1, py: 0.5, bgcolor: 'rgba(255,255,255,0.85)', borderRadius: 1 }}>
+                    <Typography variant="subtitle2" sx={{ color: '#111', fontWeight: 700, fontSize: 12, textAlign: 'center', lineHeight: 1.2 }}>{item.title}</Typography>
                   </Box>
+                </Card>
+                <Box sx={{ position: 'absolute', bottom: -10, left: -8, fontWeight: 900, fontSize: { xs: 22, sm: 30 }, color: '#111', lineHeight: 1, zIndex: 2, background: 'rgba(255,255,255,0.95)', borderRadius: '50%', width: { xs: 30, sm: 38 }, height: { xs: 30, sm: 38 }, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 2 }}>
+                  {(idx % trending.length) + 1}
                 </Box>
-              </Grow>
-            ))}
-          </Box>
+              </Box>
+            </Grow>
+          ))}
         </Box>
 
         {/* New Release */}
         <Box sx={{ mt: 5 }} />
         <Fade in={true} timeout={700}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>New Release</Typography></Fade>
-        <Box sx={{ overflow: 'hidden', mb: 2, pb: 1 }}>
-          <Box
-            sx={{
-              display: 'flex',
-              width: 'max-content',
-              gap: 2,
-              animation: 'slide 40s linear infinite',
-              '&:hover': {
-                animationPlayState: 'paused',
-              },
-            }}
-          >
-            {duplicatedNewReleases.map((item, idx) => (
-              <Grow in={true} timeout={400 + idx * 80} key={idx}>
-                <Box
-                  sx={{
-                    minWidth: { xs: 150, sm: 220 },
-                    height: { xs: 70, sm: 100 },
-                    display: 'flex',
-                    alignItems: 'center',
-                    bgcolor: item.bg,
-                    borderRadius: 3,
-                    overflow: 'hidden',
-                    boxShadow: 2,
-                    position: 'relative',
-                    flexShrink: 0,
-                  }}
-                >
-                  <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
-                    <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, mb: 0.5, fontSize: { xs: 14, sm: 20 } }}>{item.title}</Typography>
-                    <Typography variant="body2" sx={{ color: '#444', fontSize: { xs: 11, sm: 14 } }}>{item.author}</Typography>
-                  </Box>
-                  <Box sx={{ height: '100%', width: { xs: 60, sm: 120 }, position: 'relative', zIndex: 1 }}>
-                    <img src={item.img} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'cover', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} />
-                  </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            overflowX: 'auto',
+            mb: 2,
+            pb: 1,
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            scrollBehavior: 'smooth',
+          }}
+        >
+          {duplicatedNewReleases.map((item, idx) => (
+            <Grow in={true} timeout={400 + idx * 80} key={idx}>
+              <Box
+                sx={{
+                  minWidth: { xs: 150, sm: 220 },
+                  height: { xs: 70, sm: 100 },
+                  display: 'flex',
+                  alignItems: 'center',
+                  bgcolor: item.bg,
+                  borderRadius: 3,
+                  overflow: 'hidden',
+                  boxShadow: 2,
+                  position: 'relative',
+                  flexShrink: 0,
+                }}
+              >
+                <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
+                  <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, mb: 0.5, fontSize: { xs: 14, sm: 20 } }}>{item.title}</Typography>
+                  <Typography variant="body2" sx={{ color: '#444', fontSize: { xs: 11, sm: 14 } }}>{item.author}</Typography>
                 </Box>
-              </Grow>
-            ))}
-          </Box>
+                <Box sx={{ height: '100%', width: { xs: 60, sm: 120 }, position: 'relative', zIndex: 1 }}>
+                  <img src={item.img} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'cover', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} />
+                </Box>
+              </Box>
+            </Grow>
+          ))}
         </Box>
 
         {/* Most listen audio */}
         <Box sx={{ mt: 5 }} />
         <Fade in={true} timeout={800}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Most listen audio</Typography></Fade>
-        <Box sx={{ overflow: 'hidden', mb: 2, pb: 1 }}>
-          <Box
-            sx={{
-              display: 'flex',
-              width: 'max-content',
-              gap: 2,
-              animation: 'slide 50s linear infinite',
-              '&:hover': {
-                animationPlayState: 'paused',
-              },
-            }}
-          >
-            {duplicatedMostListenAudio.map((item, idx) => (
-              <Grow in={true} timeout={400 + idx * 80} key={idx}>
-                <Box
-                  sx={{
-                    minWidth: { xs: 120, sm: 180 },
-                    height: { xs: 180, sm: 260 },
-                    flexShrink: 0,
-                  }}
-                >
-                  <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative', bgcolor: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-                    <CardMedia component="img" image={item.img} alt={item.title} sx={{ width: '100%', height: { xs: 80, sm: 140 }, objectFit: 'cover' }} />
-                    <CardContent sx={{ flex: 1, p: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-                      <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, fontSize: { xs: 14, sm: 20 } }}>{item.title}</Typography>
-                      {item.author && <Typography variant="subtitle2" sx={{ color: '#111', fontWeight: 500, fontSize: { xs: 11, sm: 14 } }}>{item.author}</Typography>}
-                      <Typography variant="body2" sx={{ color: '#333', fontSize: { xs: 11, sm: 14 } }}>{item.desc}</Typography>
-                    </CardContent>
-                  </Card>
-                </Box>
-              </Grow>
-            ))}
-          </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            overflowX: 'auto',
+            mb: 2,
+            pb: 1,
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            scrollBehavior: 'smooth',
+          }}
+        >
+          {duplicatedMostListenAudio.map((item, idx) => (
+            <Grow in={true} timeout={400 + idx * 80} key={idx}>
+              <Box
+                sx={{
+                  minWidth: { xs: 120, sm: 180 },
+                  height: { xs: 180, sm: 260 },
+                  flexShrink: 0,
+                }}
+              >
+                <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative', bgcolor: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                  <CardMedia component="img" image={item.img} alt={item.title} sx={{ width: '100%', height: { xs: 80, sm: 140 }, objectFit: 'cover' }} />
+                  <CardContent sx={{ flex: 1, p: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                    <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, fontSize: { xs: 14, sm: 20 } }}>{item.title}</Typography>
+                    {item.author && <Typography variant="subtitle2" sx={{ color: '#111', fontWeight: 500, fontSize: { xs: 11, sm: 14 } }}>{item.author}</Typography>}
+                    <Typography variant="body2" sx={{ color: '#333', fontSize: { xs: 11, sm: 14 } }}>{item.desc}</Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+            </Grow>
+          ))}
         </Box>
       </Box>
-      <style jsx global>{`
-        @keyframes slide {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(-50%);
-          }
-        }
-      `}</style>
     </Box>
   );
 } 

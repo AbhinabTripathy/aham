@@ -39,7 +39,7 @@ const Footer = () => {
           </svg>
         </a>
         <a
-          href="https://youtube.com"
+          href="https://youtube.com/@samarpratapnayak07?si=0C5itPmQX0J9ygOt"
           target="_blank"
           rel="noopener noreferrer"
           className="aham-social"

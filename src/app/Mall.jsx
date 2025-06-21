@@ -44,12 +44,12 @@ const products = [
   { img: 'https://via.placeholder.com/120x120?text=Silver+Bracelet', name: 'Silver Bracelet' },
   { img: 'https://via.placeholder.com/120x120?text=Gold+Bracelet', name: 'Gold Bracelet' },
 ];
-const duplicatedProducts = [...products, ...products];
+const duplicatedProducts = [...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products, ...products];
 
 const tshirts = Array.from({ length: 8 }).map(() => ({
   img: mallImg.src,
 }));
-const duplicatedTshirts = [...tshirts, ...tshirts];
+const duplicatedTshirts = [...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts, ...tshirts];
 
 export default function Mall() {
   const [current, setCurrent] = useState(0);
@@ -143,15 +143,20 @@ export default function Mall() {
         <div style={{ fontSize: 32, fontWeight: 700, marginBottom: 24, letterSpacing: 0.5, color: '#222', fontFamily: 'inherit' }}>
           Products
         </div>
-        <div className="animated-grid-container">
-          <div className="product-grid" style={{ animation: 'slide 60s linear infinite' }}>
-            {duplicatedProducts.map((item, idx) => (
-              <div key={idx} className="product-card">
-                <img src={item.img} alt={item.name.replace(/<br\/>/g, ' ')} style={{ width: 120, height: 120, objectFit: 'contain', marginBottom: 16 }} />
-                <div style={{ fontSize: 20, fontWeight: 500, color: '#222', textAlign: 'center', whiteSpace: 'pre-line' }}>{item.name}</div>
-              </div>
-            ))}
-          </div>
+        <div style={{ 
+          display: 'flex', 
+          gap: '2vw', 
+          overflowX: 'auto', 
+          scrollbarWidth: 'none',
+          scrollBehavior: 'smooth',
+          paddingBottom: '8px'
+        }}>
+          {duplicatedProducts.map((item, idx) => (
+            <div key={idx} className="product-card" style={{ flexShrink: 0 }}>
+              <img src={item.img} alt={item.name.replace(/<br\/>/g, ' ')} style={{ width: 120, height: 120, objectFit: 'contain', marginBottom: 16 }} />
+              <div style={{ fontSize: 20, fontWeight: 500, color: '#222', textAlign: 'center', whiteSpace: 'pre-line' }}>{item.name}</div>
+            </div>
+          ))}
         </div>
       </div>
       {/* LEGO HANUMAN Banner Slider Section */}
@@ -161,25 +166,22 @@ export default function Mall() {
         <div style={{ fontSize: 32, fontWeight: 700, marginBottom: 24, letterSpacing: 0.5, color: '#222', fontFamily: 'inherit' }}>
           Tshirts
         </div>
-        <div className="animated-grid-container">
-          <div className="product-grid" style={{ animation: 'slide 40s linear infinite' }}>
-            {duplicatedTshirts.map((item, idx) => (
-              <div key={idx} className="product-card tshirt-card">
-                <img src={item.img} alt="Tshirt" style={{ width: 80, height: 80, objectFit: 'contain', marginBottom: 16 }} />
-              </div>
-            ))}
-          </div>
+        <div style={{ 
+          display: 'flex', 
+          gap: '2vw', 
+          overflowX: 'auto', 
+          scrollbarWidth: 'none',
+          scrollBehavior: 'smooth',
+          paddingBottom: '8px'
+        }}>
+          {duplicatedTshirts.map((item, idx) => (
+            <div key={idx} className="product-card tshirt-card" style={{ flexShrink: 0 }}>
+              <img src={item.img} alt="Tshirt" style={{ width: 80, height: 80, objectFit: 'contain', marginBottom: 16 }} />
+            </div>
+          ))}
         </div>
       </div>
       <style jsx>{`
-        @keyframes slide {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(-50%);
-          }
-        }
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -189,19 +191,6 @@ export default function Mall() {
             opacity: 1;
             transform: translateY(0);
           }
-        }
-        .animated-grid-container {
-          overflow: hidden;
-          -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-          mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-        }
-        .animated-grid-container:hover .product-grid {
-          animation-play-state: paused;
-        }
-        .product-grid {
-          display: flex;
-          gap: 2vw;
-          width: max-content;
         }
         .product-card {
           background: #e0e0e0;
@@ -238,9 +227,6 @@ export default function Mall() {
           background: #e5e5e5;
         }
         @media (max-width: 1100px) {
-          .product-grid {
-            gap: 16px;
-          }
           .product-card {
             min-width: 90px;
             max-width: 120px;
@@ -256,12 +242,6 @@ export default function Mall() {
           }
         }
         @media (max-width: 800px) {
-          .animated-grid-container {
-            padding-bottom: 8px;
-          }
-          .product-grid {
-            gap: 12px;
-          }
           .product-card {
             min-width: 90px;
             max-width: 110px;

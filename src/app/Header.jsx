@@ -56,10 +56,9 @@ export default function Header({ selectedNav = 'home', searchPlaceholder = 'Grap
       sx={{
         width: '100%',
         bgcolor: 'transparent',
-        pb: 2,
+        pb: 1,
         position: 'relative',
-        minHeight: 220,
-        // height: "200px"
+        minHeight: { xs: 140, sm: 150 },
         overflow: 'hidden',
       }}
     >
@@ -143,7 +142,7 @@ export default function Header({ selectedNav = 'home', searchPlaceholder = 'Grap
           </Box>
         </Box>
         {/* Search Bar */}
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', mt: 2, px: { xs: 1, sm: 0 } }}>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', mt: { xs: 3, sm: 4 }, px: { xs: 1, sm: 0 } }}>
           <Paper
             component="form"
             sx={{
@@ -171,7 +170,7 @@ export default function Header({ selectedNav = 'home', searchPlaceholder = 'Grap
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-around',
-            mt: 3,
+            mt: { xs: 4, sm: 5 },
             pb: 1,
             gap: { xs: 0.5, sm: 0 },
           }}
