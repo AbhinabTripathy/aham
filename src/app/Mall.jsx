@@ -77,16 +77,21 @@ export default function Mall() {
                 background: banner.bg,
                 borderRadius: 20,
                 boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
-                padding: '32px 32px 32px 40px',
-                minHeight: 220,
+                padding: window.innerWidth <= 768 ? '16px 16px 16px 20px' : '24px 24px 24px 32px',
+                minHeight: window.innerWidth <= 768 ? 120 : 160,
                 transition: 'all 0.5s',
                 color: '#fff',
                 position: 'relative',
                 overflow: 'hidden',
               }}
             >
-              <div style={{ flex: 1, minWidth: 180 }}>
-                <div style={{ fontSize: 28, fontWeight: 700, marginBottom: 12, letterSpacing: 1 }}>
+              <div style={{ flex: 1, minWidth: window.innerWidth <= 768 ? 100 : 140 }}>
+                <div style={{ 
+                  fontSize: window.innerWidth <= 768 ? 18 : 24, 
+                  fontWeight: 700, 
+                  marginBottom: window.innerWidth <= 768 ? 6 : 10, 
+                  letterSpacing: 1 
+                }}>
                   {banner.title}
                 </div>
                 <button
@@ -95,12 +100,12 @@ export default function Mall() {
                     color: banner.bg,
                     border: 'none',
                     borderRadius: 8,
-                    padding: '10px 24px',
+                    padding: window.innerWidth <= 768 ? '6px 12px' : '8px 20px',
                     fontWeight: 700,
-                    fontSize: 18,
+                    fontSize: window.innerWidth <= 768 ? 12 : 16,
                     cursor: 'pointer',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-                    marginTop: 8,
+                    marginTop: 6,
                   }}
                 >
                   {banner.button}
@@ -110,23 +115,29 @@ export default function Mall() {
                 <Image
                   src={banner.img}
                   alt={banner.title}
-                  style={{ width: 'auto', height: 160, maxWidth: '100%', objectFit: 'contain', filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.15))' }}
-                  width={180}
-                  height={160}
+                  style={{ 
+                    width: 'auto', 
+                    height: window.innerWidth <= 768 ? 90 : 130, 
+                    maxWidth: '100%', 
+                    objectFit: 'contain', 
+                    filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.15))' 
+                  }}
+                  width={window.innerWidth <= 768 ? 110 : 150}
+                  height={window.innerWidth <= 768 ? 90 : 130}
                   priority={idx === 0}
                 />
               </div>
             </div>
           ))}
           {/* Dots */}
-          <div style={{ position: 'absolute', bottom: 18, left: 40, display: 'flex', gap: 8 }}>
+          <div style={{ position: 'absolute', bottom: window.innerWidth <= 768 ? 10 : 14, left: window.innerWidth <= 768 ? 20 : 32, display: 'flex', gap: 6 }}>
             {banners.map((_, idx) => (
               <div
                 key={idx}
                 onClick={() => setCurrent(idx)}
                 style={{
-                  width: 12,
-                  height: 12,
+                  width: window.innerWidth <= 768 ? 8 : 10,
+                  height: window.innerWidth <= 768 ? 8 : 10,
                   borderRadius: '50%',
                   background: idx === current ? '#fff' : 'rgba(255,255,255,0.5)',
                   border: '2px solid #fff',

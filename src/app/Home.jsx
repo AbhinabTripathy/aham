@@ -45,7 +45,7 @@ const trending = [
   { img: shunya },
   { img: storyOfIndia },
 ];
-const duplicatedTrending = [...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending];
+const duplicatedTrending = [...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending];
 
 const newReleases = [
   { img: '/anime1.png', title: 'Title 1', author: 'Author 1', bg: '#7bc47f' },
@@ -107,7 +107,7 @@ const mostReadNovel = [
   { id: 13, img: paika, title: 'Paika Revolution' },
   { id: 14, img: paika, title: 'Paika Revolution' },
 ];
-const duplicatedMostReadNovel = [...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel];
+const duplicatedMostReadNovel = [...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel];
 
 export default function Home() {
   const sliderSettings = {
@@ -132,14 +132,37 @@ export default function Home() {
           <Box sx={{ mb: 3, position: 'relative' }}>
             <Slider {...sliderSettings} className="banner-slider">
               {bannerSlides.map((slide, idx) => (
-                <Paper key={idx} elevation={3} sx={{ borderRadius: 3, overflow: 'hidden', position: 'relative', minHeight: 220 }}>
-                  <Box sx={{ position: 'relative', height: 220, bgcolor: '#000' }}>
+                <Paper key={idx} elevation={3} sx={{ borderRadius: 3, overflow: 'hidden', position: 'relative', minHeight: { xs: 120, sm: 150 } }}>
+                  <Box sx={{ position: 'relative', height: { xs: 120, sm: 150 }, bgcolor: '#000' }}>
                     <img src={slide.img} alt={slide.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7 }} />
-                    <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', p: 3 }}>
-                      <Typography variant="h4" sx={{ color: slide.color, fontWeight: 700, letterSpacing: 1, fontFamily: 'monospace', textShadow: '2px 2px 8px #000' }}>
+                    <Box sx={{ 
+                      position: 'absolute', 
+                      top: 0, 
+                      left: 0, 
+                      width: '100%', 
+                      height: '100%', 
+                      display: 'flex', 
+                      flexDirection: 'column', 
+                      justifyContent: 'space-between', 
+                      p: { xs: 1.5, sm: 2.5 },
+                      pb: { xs: 3.5, sm: 4.5 }
+                    }}>
+                      <Typography variant="h4" sx={{ 
+                        color: slide.color, 
+                        fontWeight: 700, 
+                        letterSpacing: 1, 
+                        fontFamily: 'monospace', 
+                        textShadow: '2px 2px 8px #000',
+                        fontSize: { xs: '1.1rem', sm: '1.5rem' }
+                      }}>
                         {slide.title}
                       </Typography>
-                      <Typography variant="caption" sx={{ color: '#fff', alignSelf: 'flex-end', textShadow: '1px 1px 6px #000' }}>{slide.author}</Typography>
+                      <Typography variant="caption" sx={{ 
+                        color: '#fff', 
+                        alignSelf: 'flex-end', 
+                        textShadow: '1px 1px 6px #000',
+                        fontSize: { xs: '0.65rem', sm: '0.75rem' }
+                      }}>{slide.author}</Typography>
                     </Box>
                   </Box>
                 </Paper>
@@ -148,7 +171,7 @@ export default function Home() {
             <style jsx global>{`
               .banner-slider .slick-dots {
                 position: absolute !important;
-                bottom: 18px !important;
+                bottom: 12px !important;
                 left: 0;
                 right: 0;
                 margin: 0 auto;
@@ -160,7 +183,7 @@ export default function Home() {
               .banner-slider .slick-dots li button:before {
                 color: #fff !important;
                 opacity: 0.9;
-                font-size: 12px;
+                font-size: 10px;
               }
               .banner-slider .slick-dots li.slick-active button:before {
                 color: #1976d2 !important;
