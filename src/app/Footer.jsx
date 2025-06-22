@@ -15,8 +15,8 @@ const Footer = () => {
     <footer
       className="aham-footer"
       style={{
-        background: '#2d2d2d',
-        color: '#fff',
+        background: '#ffffff',
+        color: '#2d2d2d',
         padding: '40px 0 24px 0',
         textAlign: 'center',
         fontFamily: 'Montserrat, Arial, sans-serif',
@@ -24,8 +24,16 @@ const Footer = () => {
       }}
     >
       <div style={{ marginBottom: 32 }}>
+        <hr style={{
+          width: '95%',
+          margin: '0 auto 32px auto',
+          border: 'none',
+          height: '1px',
+          backgroundColor: '#2d2d2d',
+          opacity: 0.5
+        }} />
         <a
-          href="https://instagram.com"
+          href="https://www.instagram.com/aham.core?igsh=MXRseDNiY2F1b3Q5dw=="
           target="_blank"
           rel="noopener noreferrer"
           className="aham-social"
@@ -33,9 +41,9 @@ const Footer = () => {
         >
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="40" height="40" rx="10" fill="none" />
-            <rect x="8" y="8" width="24" height="24" rx="8" stroke="#fff" strokeWidth="2" />
-            <circle cx="20" cy="20" r="6" stroke="#fff" strokeWidth="2" />
-            <circle cx="27.5" cy="12.5" r="1.5" fill="#fff" />
+            <rect x="8" y="8" width="24" height="24" rx="8" stroke="#2d2d2d" strokeWidth="2" />
+            <circle cx="20" cy="20" r="6" stroke="#2d2d2d" strokeWidth="2" />
+            <circle cx="27.5" cy="12.5" r="1.5" fill="#2d2d2d" />
           </svg>
         </a>
         <a
@@ -47,8 +55,8 @@ const Footer = () => {
         >
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="40" height="40" rx="10" fill="none" />
-            <rect x="8" y="8" width="24" height="24" rx="8" stroke="#fff" strokeWidth="2" />
-            <polygon points="18,16 26,20 18,24" fill="#fff" />
+            <rect x="8" y="8" width="24" height="24" rx="8" stroke="#2d2d2d" strokeWidth="2" />
+            <polygon points="18,16 26,20 18,24" fill="#2d2d2d" />
           </svg>
         </a>
       </div>
@@ -76,7 +84,7 @@ const Footer = () => {
                 href={link.href}
                 className="aham-link"
                 style={{
-                  color: '#fff',
+                  color: '#2d2d2d',
                   textDecoration: 'none',
                   letterSpacing: 2,
                   fontSize: 28,
@@ -88,7 +96,7 @@ const Footer = () => {
                 {link.label}
               </a>
               {idx < 2 && (
-                <span style={{ color: '#fff', fontSize: 28, margin: '0 8px' }}>|</span>
+                <span style={{ color: '#2d2d2d', fontSize: 28, margin: '0 8px' }}>|</span>
               )}
             </React.Fragment>
           ))}
@@ -108,7 +116,7 @@ const Footer = () => {
                 href={link.href}
                 className="aham-link"
                 style={{
-                  color: '#fff',
+                  color: '#2d2d2d',
                   textDecoration: 'none',
                   letterSpacing: 2,
                   fontSize: 28,
@@ -120,7 +128,7 @@ const Footer = () => {
                 {link.label}
               </a>
               {idx < 1 && (
-                <span style={{ color: '#fff', fontSize: 28, margin: '0 8px' }}>|</span>
+                <span style={{ color: '#2d2d2d', fontSize: 28, margin: '0 8px' }}>|</span>
               )}
             </React.Fragment>
           ))}
@@ -137,7 +145,7 @@ const Footer = () => {
           />
         </span>
       </div>
-      <div style={{ fontSize: 28, fontWeight: 400, letterSpacing: 2 }}>aham core</div>
+      <div style={{ fontSize: 28, fontWeight: 400, letterSpacing: 2 }}>ahamcore</div>
       <style>{`
         @keyframes aham-fadein {
           from { opacity: 0; transform: translateY(40px); }
@@ -153,7 +161,7 @@ const Footer = () => {
         }
         .aham-social:hover {
           transform: scale(1.18) rotate(-8deg);
-          filter: drop-shadow(0 2px 8px #fff2);
+          filter: drop-shadow(0 2px 8px #2d2d2d22);
         }
         .aham-link:hover {
           color: #00bfff;
