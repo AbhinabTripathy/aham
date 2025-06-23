@@ -6,6 +6,7 @@ import mallImg from './assets/images/mall.png';
 import novelImg from './assets/images/Novel.png';
 import audiobookImg from './assets/images/audiobook.png';
 import shunyaImg from './assets/images/shunya.jpg';
+import { useRouter } from 'next/navigation';
 
 const banners = [
   {
@@ -55,6 +56,7 @@ export default function Mall() {
   const [current, setCurrent] = useState(0);
   const [windowWidth, setWindowWidth] = useState(768); // default mobile width
   const timeoutRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     const handleResize = () => {
@@ -179,7 +181,12 @@ export default function Mall() {
           paddingBottom: '8px'
         }}>
           {duplicatedProducts.map((item, idx) => (
-            <div key={idx} className="product-card" style={{ flexShrink: 0 }}>
+            <div 
+              key={idx} 
+              className="product-card" 
+              style={{ flexShrink: 0, cursor: 'pointer' }}
+              onClick={() => router.push(`/mall/${idx}`)}
+            >
               <img src={item.img} alt={item.name.replace(/<br\/>/g, ' ')} style={{ width: 120, height: 120, objectFit: 'contain', marginBottom: 16 }} />
               <div style={{ fontSize: 20, fontWeight: 500, color: '#222', textAlign: 'center', whiteSpace: 'pre-line' }}>{item.name}</div>
             </div>
@@ -202,7 +209,12 @@ export default function Mall() {
           paddingBottom: '8px'
         }}>
           {duplicatedTshirts.map((item, idx) => (
-            <div key={idx} className="product-card tshirt-card" style={{ flexShrink: 0 }}>
+            <div 
+              key={idx} 
+              className="product-card tshirt-card" 
+              style={{ flexShrink: 0, cursor: 'pointer' }}
+              onClick={() => router.push(`/mall/${idx + duplicatedProducts.length}`)}
+            >
               <img src={item.img} alt="Tshirt" style={{ width: 80, height: 80, objectFit: 'contain', marginBottom: 16 }} />
             </div>
           ))}

@@ -2,6 +2,7 @@
 import React from 'react';
 import Header from './Header';
 import { Box, Typography, Grid, Card, CardContent, CardMedia, Paper, Grow, Fade } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 const trending = [
   { img: '/satyayug.png', title: 'Satyayug 1' },
@@ -22,7 +23,7 @@ const newReleases = [
   { img: '/anime2.png', title: 'Title 2', author: 'Author 2', bg: '#b3e0ff' },
   { img: '/anime2.png', title: 'Title 3', author: 'Author 3', bg: '#b3e0ff' },
   { img: '/anime1.png', title: 'Title 4', author: 'Author 4', bg: '#7bc47f' },
-  { img: '/anime1.png', title: 'Title 5', author: 'Author 5', bg: '#7bc47f' },
+  { img: '/anime1.png', title: 'Title 5', author: 'Author 5', bg: '#7bc47f' },  
   { img: '/anime2.png', title: 'Title 6', author: 'Author 6', bg: '#b3e0ff' },
   { img: '/anime1.png', title: 'Title 7', author: 'Author 7', bg: '#7bc47f' },
   { img: '/anime2.png', title: 'Title 8', author: 'Author 8', bg: '#b3e0ff' },
@@ -47,6 +48,12 @@ const mostListenAudio = [
 const duplicatedMostListenAudio = [...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio];
 
 export default function AudioBook() {
+  const router = useRouter();
+
+  const handleCardClick = (id) => {
+    router.push(`/audiobook/${id}`);
+  };
+
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
       <Header selectedNav="audiobook" searchPlaceholder="Audiobooks" />
@@ -70,11 +77,13 @@ export default function AudioBook() {
           {duplicatedTrending.map((item, idx) => (
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
+                onClick={() => handleCardClick(idx + 1)}
                 sx={{
                   minWidth: { xs: 80, sm: 120 },
                   height: { xs: 140, sm: 190 },
                   position: 'relative',
                   flexShrink: 0,
+                  cursor: 'pointer',
                 }}
               >
                 <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative', bgcolor: '#fff' }}>
@@ -109,6 +118,7 @@ export default function AudioBook() {
           {duplicatedNewReleases.map((item, idx) => (
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
+                onClick={() => handleCardClick(idx + 1)}
                 sx={{
                   minWidth: { xs: 150, sm: 220 },
                   height: { xs: 70, sm: 100 },
@@ -120,6 +130,7 @@ export default function AudioBook() {
                   boxShadow: 2,
                   position: 'relative',
                   flexShrink: 0,
+                  cursor: 'pointer',
                 }}
               >
                 <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
@@ -152,10 +163,12 @@ export default function AudioBook() {
           {duplicatedMostListenAudio.map((item, idx) => (
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
+                onClick={() => handleCardClick(idx + 1)}
                 sx={{
                   minWidth: { xs: 120, sm: 180 },
                   height: { xs: 180, sm: 260 },
                   flexShrink: 0,
+                  cursor: 'pointer',
                 }}
               >
                 <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative', bgcolor: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
