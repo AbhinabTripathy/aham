@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './Header';
 import { Box, Typography, Grid, Card, CardContent, CardMedia, Button, Avatar, TextField, InputAdornment, IconButton, Paper, Grow, Fade } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,6 +11,7 @@ import panchatantra from './assets/images/Panchatantra.png';
 import shunya from './assets/images/shunya.jpg';
 import paika from './assets/images/Paika.png';
 import Link from 'next/link';
+import axios from 'axios';
 
 const bannerSlides = [
   {
@@ -33,20 +34,6 @@ const bannerSlides = [
   },
 ];
 
-const trending = [
-  { img: storyOfIndia },
-  { img: panchatantra },
-  { img: shunya },
-  { img: storyOfIndia },
-  { img: panchatantra },
-  { img: shunya },
-  { img: storyOfIndia },
-  { img: panchatantra },
-  { img: shunya },
-  { img: storyOfIndia },
-];
-const duplicatedTrending = [...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending, ...trending];
-
 const newReleases = [
   { img: '/anime1.png', title: 'Title 1', author: 'Author 1', bg: '#7bc47f' },
   { img: '/anime2.png', title: 'Title 2', author: 'Author 2', bg: '#b3e0ff' },
@@ -61,7 +48,6 @@ const newReleases = [
   { img: '/anime1.png', title: 'Title 11', author: 'Author 11', bg: '#7bc47f' },
   { img: '/anime2.png', title: 'Title 12', author: 'Author 12', bg: '#b3e0ff' },
 ];
-const duplicatedNewReleases = [...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases, ...newReleases];
 
 const mallItems = [
   { img: '/rudra-shirt.png', title: 'Rudra', edition: 'Black Edition', bg: '#0066d6' },
@@ -73,7 +59,6 @@ const mallItems = [
   { img: '/jaga-shirt.png', title: 'Jaga', edition: 'Red Edition', bg: '#e57373' },
   { img: '/rudra-shirt.png', title: 'Rudra', edition: 'Green Edition', bg: '#4caf50' },
 ];
-const duplicatedMallItems = [...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems, ...mallItems];
 
 const mostListenAudio = [
   { img: '/satyayug.png', title: 'Satyayug 1', author: 'Author 1', bg: '#ffe082' },
@@ -89,7 +74,6 @@ const mostListenAudio = [
   { img: '/satyayug.png', title: 'Satyayug 6', author: 'Author 11', bg: '#ffe082' },
   { img: '/yogi3000.png', title: 'Yogi 3000 6', author: 'Author 12', bg: '#b3e0ff' },
 ];
-const duplicatedMostListenAudio = [...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio, ...mostListenAudio];
 
 const mostReadNovel = [
   { id: 1, img: paika, title: 'Paika Revolution' },
@@ -107,9 +91,53 @@ const mostReadNovel = [
   { id: 13, img: paika, title: 'Paika Revolution' },
   { id: 14, img: paika, title: 'Paika Revolution' },
 ];
-const duplicatedMostReadNovel = [...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel, ...mostReadNovel];
+
+function getImageUrl(path) {
+  if (!path) return '/fallback.png';
+  if (path.startsWith('/uploads')) {
+    return `https://api.ahamcore.com${path}`;
+  }
+  return path;
+}
 
 export default function Home() {
+  const [contentData, setContentData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await axios.get('https://api.ahamcore.com/api/user/published-content');
+        console.log('Fetched data:', res.data);
+        setContentData(res.data.data || {});
+      } catch (err) {
+        setError('Failed to load content.');
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
+  // Trending: mix of audiobooks and graphicNovels
+  const trending = [
+    ...(Array.isArray(contentData?.audiobooks) ? contentData.audiobooks : []),
+    ...(Array.isArray(contentData?.graphicNovels) ? contentData.graphicNovels : [])
+  ];
+
+  // Most listen audio: audiobooks only
+  const mostListenAudio = Array.isArray(contentData?.audiobooks)
+    ? contentData.audiobooks
+    : [];
+
+  // Most read novel: graphicNovels
+  const mostReadNovel = Array.isArray(contentData?.graphicNovels)
+    ? contentData.graphicNovels
+    : [];
+
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -208,8 +236,10 @@ export default function Home() {
             scrollBehavior: 'smooth',
           }}
         >
-          {duplicatedTrending.map((item, idx) => (
-            <Grow in={true} timeout={400 + idx * 80} key={idx}>
+          {trending.length === 0 ? (
+            <Typography sx={{ p: 2 }}>No trending content found.</Typography>
+          ) : trending.map((item, idx) => (
+            <Grow in={true} timeout={400 + idx * 80} key={item._id || idx}>
               <Box
                 sx={{
                   minWidth: { xs: 140, sm: 120 },
@@ -220,13 +250,10 @@ export default function Home() {
                 }}
               >
                 <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative', bgcolor: '#fff' }}>
-                  <CardMedia component="img" image={item.img?.src ? item.img.src : item.img} alt={item.title || 'Trending'} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  <Box sx={{ position: 'absolute', bottom: 8, left: 8, right: 8, px: 1, py: 0.5 }}>
-                    {/* <Typography variant="subtitle2" sx={{ color: '#111', fontWeight: 700, fontSize: 12, textAlign: 'center', lineHeight: 1.2 }}>{item.title}</Typography> */}
-                  </Box>
+                  <CardMedia component="img" image={getImageUrl(item.iconPath || item.icon || item.novelIcon)} alt={item.title || 'Trending'} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </Card>
                 <Box sx={{ position: 'absolute', bottom: -10, left: -8, fontWeight: 900, fontSize: { xs: 22, sm: 30 }, color: '#111', lineHeight: 1, zIndex: 2, background: 'rgba(255,255,255,0.95)', borderRadius: '50%', width: { xs: 30, sm: 38 }, height: { xs: 30, sm: 38 }, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 2 }}>
-                  {(idx % trending.length) + 1}
+                  {idx + 1}
                 </Box>
               </Box>
             </Grow>
@@ -248,7 +275,7 @@ export default function Home() {
             scrollBehavior: 'smooth',
           }}
         >
-          {duplicatedNewReleases.map((item, idx) => (
+          {newReleases.map((item, idx) => (
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
@@ -292,7 +319,7 @@ export default function Home() {
             scrollBehavior: 'smooth',
           }}
         >
-          {duplicatedMallItems.map((item, idx) => (
+          {mallItems.map((item, idx) => (
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
@@ -337,8 +364,10 @@ export default function Home() {
             scrollBehavior: 'smooth',
           }}
         >
-          {duplicatedMostListenAudio.map((item, idx) => (
-            <Grow in={true} timeout={400 + idx * 80} key={idx}>
+          {mostListenAudio.length === 0 ? (
+            <Typography sx={{ p: 2 }}>No audio books found.</Typography>
+          ) : mostListenAudio.map((item, idx) => (
+            <Grow in={true} timeout={400 + idx * 80} key={item._id || idx}>
               <Box
                 sx={{
                   minWidth: { xs: 140, sm: 220 },
@@ -346,7 +375,7 @@ export default function Home() {
                   height: { xs: 90, sm: 100 },
                   display: 'flex',
                   alignItems: 'center',
-                  bgcolor: item.bg,
+                  bgcolor: '#ffe082',
                   borderRadius: 3,
                   overflow: 'hidden',
                   boxShadow: 2,
@@ -356,10 +385,10 @@ export default function Home() {
               >
                 <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
                   <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, mb: 0.5, fontSize: { xs: 14, sm: 20 } }}>{item.title}</Typography>
-                  <Typography variant="body2" sx={{ color: '#444', fontSize: { xs: 11, sm: 14 } }}>{item.author}</Typography>
+                  <Typography variant="body2" sx={{ color: '#444', fontSize: { xs: 11, sm: 14 } }}>{item.role}</Typography>
                 </Box>
                 <Box sx={{ height: '100%', width: { xs: 60, sm: 120 }, position: 'relative', zIndex: 1 }}>
-                  <img src={item.img} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'cover', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} />
+                  <img src={getImageUrl(item.iconPath || item.icon || item.novelIcon)} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'cover', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} />
                 </Box>
               </Box>
             </Grow>
@@ -381,23 +410,23 @@ export default function Home() {
             scrollBehavior: 'smooth',
           }}
         >
-          {duplicatedMostReadNovel.map((item, idx) => (
-            <Grow in={true} timeout={400 + idx * 80} key={idx}>
-              <Link href={`/novel/${item.id}`} passHref>
-                <Box
-                  sx={{
-                    minWidth: { xs: 120, sm: 180 },
-                    maxWidth: { xs: 160, sm: 220 },
-                    height: { xs: 180, sm: 260 },
-                    flexShrink: 0,
-                    textDecoration: 'none',
-                  }}
-                >
-                  <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative' }}>
-                    <CardMedia component="img" image={item.img?.src ? item.img.src : item.img} alt={item.title} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  </Card>
-                </Box>
-              </Link>
+          {mostReadNovel.length === 0 ? (
+            <Typography sx={{ p: 2 }}>No graphic novels found.</Typography>
+          ) : mostReadNovel.map((item, idx) => (
+            <Grow in={true} timeout={400 + idx * 80} key={item._id || idx}>
+              <Box
+                sx={{
+                  minWidth: { xs: 120, sm: 180 },
+                  maxWidth: { xs: 160, sm: 220 },
+                  height: { xs: 180, sm: 260 },
+                  flexShrink: 0,
+                  textDecoration: 'none',
+                }}
+              >
+                <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative' }}>
+                  <CardMedia component="img" image={getImageUrl(item.iconPath || item.novelIcon)} alt={item.title} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </Card>
+              </Box>
             </Grow>
           ))}
         </Box>
