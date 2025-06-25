@@ -202,6 +202,7 @@ export default function Home() {
             overflowX: 'auto',
             mb: 2,
             pb: 1,
+            px: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
             scrollBehavior: 'smooth',
@@ -211,8 +212,9 @@ export default function Home() {
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
-                  minWidth: { xs: 80, sm: 120 },
-                  height: { xs: 140, sm: 190 },
+                  minWidth: { xs: 140, sm: 120 },
+                  maxWidth: { xs: 180, sm: 160 },
+                  height: { xs: 180, sm: 190 },
                   position: 'relative',
                   flexShrink: 0,
                 }}
@@ -240,6 +242,7 @@ export default function Home() {
             overflowX: 'auto',
             mb: 2,
             pb: 1,
+            px: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
             scrollBehavior: 'smooth',
@@ -249,8 +252,9 @@ export default function Home() {
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
-                  minWidth: { xs: 150, sm: 220 },
-                  height: { xs: 70, sm: 100 },
+                  minWidth: { xs: 140, sm: 220 },
+                  maxWidth: { xs: 180, sm: 260 },
+                  height: { xs: 90, sm: 100 },
                   display: 'flex',
                   alignItems: 'center',
                   bgcolor: item.bg,
@@ -282,6 +286,7 @@ export default function Home() {
             overflowX: 'auto',
             mb: 2,
             pb: 1,
+            px: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
             scrollBehavior: 'smooth',
@@ -291,7 +296,8 @@ export default function Home() {
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
-                  minWidth: { xs: 150, sm: 220 },
+                  minWidth: { xs: 140, sm: 220 },
+                  maxWidth: { xs: 180, sm: 260 },
                   height: { xs: 90, sm: 160 },
                   bgcolor: item.bg,
                   borderRadius: 4,
@@ -325,6 +331,7 @@ export default function Home() {
             overflowX: 'auto',
             mb: 2,
             pb: 1,
+            px: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
             scrollBehavior: 'smooth',
@@ -334,8 +341,9 @@ export default function Home() {
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
-                  minWidth: { xs: 150, sm: 220 },
-                  height: { xs: 70, sm: 100 },
+                  minWidth: { xs: 140, sm: 220 },
+                  maxWidth: { xs: 180, sm: 260 },
+                  height: { xs: 90, sm: 100 },
                   display: 'flex',
                   alignItems: 'center',
                   bgcolor: item.bg,
@@ -367,6 +375,7 @@ export default function Home() {
             overflowX: 'auto',
             mb: 2,
             pb: 1,
+            px: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
             scrollBehavior: 'smooth',
@@ -378,6 +387,7 @@ export default function Home() {
                 <Box
                   sx={{
                     minWidth: { xs: 120, sm: 180 },
+                    maxWidth: { xs: 160, sm: 220 },
                     height: { xs: 180, sm: 260 },
                     flexShrink: 0,
                     textDecoration: 'none',
