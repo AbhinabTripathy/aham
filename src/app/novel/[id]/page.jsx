@@ -1,40 +1,77 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Box, Typography, IconButton, Tabs, Tab, List, ListItem, ListItemAvatar, Avatar, ListItemText, Divider, Paper } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Typography, IconButton, Tabs, Tab, List, ListItem, ListItemAvatar, Avatar, ListItemText, Divider, Paper, CircularProgress, Alert } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Footer from '../../Footer';
-import paika from '../../assets/images/Paika.png';
-import previewMain from '../../assets/images/Preview Main.png';
-import preview1 from '../../assets/images/Previw1.jpeg';
-import preview2 from '../../assets/images/Preview 2.jpeg';
-import preview3 from '../../assets/images/Preview 3.jpeg';
-import preview4 from '../../assets/images/Preview 4.jpeg';
-import preview5 from '../../assets/images/Preview 5.jpeg';
-import preview6 from '../../assets/images/Preview 6.jpeg';
-import preview7 from '../../assets/images/Preview 7.jpeg';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
-
-const episodes = [
-  { id: 1, num: 1, title: 'Gajapati Legacy', img: paika.src },
-  { id: 2, num: 2, title: 'The Siege of Sovereignty', img: paika.src },
-  { id: 3, "title": "The Rajguru's Wrath", img: paika.src },
-  { id: 4, num: 4, title: 'The Oppression of Empire', img: paika.src },
-  { id: 5, num: 5, title: 'The Making of a Rebel', img: paika.src },
-  { id: 6, num: 6, title: 'The Rebellion Erupts', img: paika.src },
-  { id: 7, num: 7, title: 'The People Rise', img: paika.src },
-  { id: 8, num: 8, title: 'The Aftermath Begins', img: paika.src },
-  { id: 9, num: 9, title: 'Guerrilla Years', img: paika.src },
-  { id: 10, num: 10, title: 'The End and the Echo', img: paika.src },
-];
+import axios from 'axios';
 
 export default function NovelDetailPage() {
   const router = useRouter();
+  const params = useParams();
   const [tabValue, setTabValue] = useState(0);
+  const [novelData, setNovelData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
+  };
+
+  useEffect(() => {
+    const fetchNovelData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`https://api.ahamcore.com/api/user/graphic-novel/${params.id}`);
+        setNovelData(response.data.graphicNovel);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching novel data:', err);
+        setError('Failed to load novel data. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (params.id) {
+      fetchNovelData();
+    }
+  }, [params.id]);
+
+  if (loading) {
+    return (
+      <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2 }}>
+        <Alert severity="error" sx={{ maxWidth: 400 }}>
+          {error}
+        </Alert>
+      </Box>
+    );
+  }
+
+  if (!novelData) {
+    return (
+      <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2 }}>
+        <Alert severity="warning" sx={{ maxWidth: 400 }}>
+          No novel data found.
+        </Alert>
+      </Box>
+    );
+  }
+
+  // Helper function to construct full image URL
+  const getImageUrl = (path) => {
+    if (!path) return '';
+    return path.startsWith('http') ? path : `https://api.ahamcore.com${path}`;
   };
 
   return (
@@ -59,7 +96,7 @@ export default function NovelDetailPage() {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                backgroundImage: `url(${paika.src})`,
+                backgroundImage: novelData.novelIcon ? `url(${getImageUrl(novelData.novelIcon)})` : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 filter: 'brightness(0.6)',
@@ -70,8 +107,12 @@ export default function NovelDetailPage() {
               <ArrowBackIcon />
             </IconButton>
             <Box sx={{ zIndex: 2, p: 2, alignSelf: 'flex-start', mt: 'auto' }}>
-              <Typography variant="h4" fontWeight="bold" sx={{ fontSize: '1.5rem' }}>PAIKA REVOLUTION</Typography>
-              <Typography variant="subtitle1" sx={{ fontSize: '0.9rem' }}>By Vinit kumar</Typography>
+              <Typography variant="h4" fontWeight="bold" sx={{ fontSize: '1.5rem' }}>
+                {novelData.title || 'Novel Title'}
+              </Typography>
+              <Typography variant="subtitle1" sx={{ fontSize: '0.9rem' }}>
+                By {novelData.role === 'creator' ? 'Creator' : novelData.role || 'Unknown'}
+              </Typography>
             </Box>
           </Box>
           <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
@@ -93,55 +134,77 @@ export default function NovelDetailPage() {
         <Box sx={{ flexGrow: 1, overflowY: 'auto' }}>
           {tabValue === 0 && (
             <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0 }}>
-              {episodes.map((episode, index) => (
-                <Link href={`/novel/1/${episode.id}`} passHref key={episode.id}>
-                  <ListItem
-                    alignItems="center"
-                    sx={{
-                      py: 1.5,
-                      px: 1.5,
-                      cursor: 'pointer',
-                      '&:hover': {
-                        backgroundColor: 'action.hover',
-                      },
-                    }}
-                  >
-                    <ListItemAvatar>
-                      <Avatar variant="rounded" src={episode.img} sx={{ width: 60, height: 60, mr: 2 }} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={`Episode ${episode.num}`}
-                      secondary={
-                        <Typography
-                          component="span"
-                          variant="h6"
-                          color="text.primary"
-                          fontWeight="bold"
-                          sx={{ fontSize: '1rem' }}
-                        >
-                          {episode.title}
-                        </Typography>
-                      }
-                      primaryTypographyProps={{ color: 'text.secondary', mb: 0.5, fontSize: '0.8rem' }}
-                      secondaryTypographyProps={{ component: 'div' }}
-                    />
-                  </ListItem>
-                  {index < episodes.length - 1 && <Divider variant="inset" component="li" />}
-                </Link>
-              ))}
+              {novelData.episodes && novelData.episodes.length > 0 ? (
+                novelData.episodes.map((episode, index) => (
+                  <Link href={`/novel/${params.id}/${episode.id}`} passHref key={episode.id}>
+                    <ListItem
+                      alignItems="center"
+                      sx={{
+                        py: 1.5,
+                        px: 1.5,
+                        cursor: 'pointer',
+                        '&:hover': {
+                          backgroundColor: 'action.hover',
+                        },
+                      }}
+                    >
+                      <ListItemAvatar>
+                        <Avatar 
+                          variant="rounded" 
+                          src={getImageUrl(episode.iconPath)} 
+                          sx={{ width: 60, height: 60, mr: 2 }} 
+                        />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`Episode ${episode.episodeNumber}`}
+                        secondary={
+                          <Typography
+                            component="span"
+                            variant="h6"
+                            color="text.primary"
+                            fontWeight="bold"
+                            sx={{ fontSize: '1rem' }}
+                          >
+                            {episode.title || `Episode ${episode.episodeNumber}`}
+                          </Typography>
+                        }
+                        primaryTypographyProps={{ color: 'text.secondary', mb: 0.5, fontSize: '0.8rem' }}
+                        secondaryTypographyProps={{ component: 'div' }}
+                      />
+                    </ListItem>
+                    {index < novelData.episodes.length - 1 && <Divider variant="inset" component="li" />}
+                  </Link>
+                ))
+              ) : (
+                <Box sx={{ p: 3, textAlign: 'center' }}>
+                  <Typography color="text.secondary">No episodes available</Typography>
+                </Box>
+              )}
             </List>
           )}
 
           {tabValue === 1 && (
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Box component="img" src={previewMain.src} alt="Preview Main" sx={{ width: '100%', height: 'auto' }} />
-              <Box component="img" src={preview1.src} alt="Preview 1" sx={{ width: '100%', height: 'auto' }} />
-              <Box component="img" src={preview2.src} alt="Preview 2" sx={{ width: '100%', height: 'auto' }} />
-              <Box component="img" src={preview3.src} alt="Preview 3" sx={{ width: '100%', height: 'auto' }} />
-              <Box component="img" src={preview4.src} alt="Preview 4" sx={{ width: '100%', height: 'auto' }} />
-              <Box component="img" src={preview5.src} alt="Preview 5" sx={{ width: '100%', height: 'auto' }} />
-              <Box component="img" src={preview6.src} alt="Preview 6" sx={{ width: '100%', height: 'auto' }} />
-              <Box component="img" src={preview7.src} alt="Preview 7" sx={{ width: '100%', height: 'auto' }} />
+              {novelData.previewImages && novelData.previewImages.length > 0 ? (
+                novelData.previewImages.map((image, index) => (
+                  <Box 
+                    key={index}
+                    component="img" 
+                    src={getImageUrl(image.url || image)} 
+                    alt={`Preview ${index + 1}`} 
+                    sx={{ width: '100%', height: 'auto' }} 
+                  />
+                ))
+              ) : (
+                <Box sx={{ p: 3, textAlign: 'center' }}>
+                  <Typography color="text.secondary">
+                    No preview images available for this novel
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                    You can view episode content by selecting an episode from the Episodes tab
+                  </Typography>
+                </Box>
+              )}
             </Box>
           )}
         </Box>

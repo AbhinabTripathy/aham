@@ -6,6 +6,8 @@ import { Box, Typography, Grid, Card, CardContent, CardMedia, Paper, Grow, Fade 
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
+// Commented out all previous code for Coming Soon page
+/*
 const trending = [
   { img: '/satyayug.png', title: 'Satyayug 1' },
   { img: '/yogi3000.png', title: 'Yogi 3000 1' },
@@ -27,9 +29,48 @@ function getImageUrl(path) {
   }
   return path;
 }
+*/
 
 export default function AudioBook() {
   const router = useRouter();
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  // Calculate countdown to August 27th, 2025
+  useEffect(() => {
+    const targetDate = new Date('2025-08-27T00:00:00').getTime();
+
+    const updateTimer = () => {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        setTimeLeft({ days, hours, minutes, seconds });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      }
+    };
+
+    // Update immediately
+    updateTimer();
+    
+    // Update every second
+    const timer = setInterval(updateTimer, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+  
+  // Commented out all previous state and useEffect
+  /*
   const [audioBooks, setAudioBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -69,6 +110,7 @@ export default function AudioBook() {
   const handleCardClick = (id) => {
     router.push(`/audiobook/${id}`);
   };
+  */
 
   return (
     <Box sx={{ bgcolor: '#f5f5f5', minHeight: '100vh' }}>
@@ -76,7 +118,311 @@ export default function AudioBook() {
         <Header selectedNav="audiobook" searchPlaceholder="Audiobooks" />
       </Box>
       <Box sx={{ height: 16 }} />
-      {/* Main Content Container */}
+      
+      {/* Main Content Container - Coming Soon */}
+      <Box sx={{ 
+        maxWidth: 480, 
+        mx: 'auto', 
+        bgcolor: '#fff',
+        minHeight: 'calc(100vh - 111px)',
+        boxShadow: { xs: 'none', sm: '0 0 20px rgba(0,0,0,0.1)' },
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        pb: 0
+      }}>
+        {/* Coming Soon Content */}
+        <Box sx={{ 
+          p: 4, 
+          textAlign: 'center',
+          maxWidth: 400,
+          mx: 'auto'
+        }}>
+          {/* Rocket Icon */}
+          <Fade in={true} timeout={600}>
+            <Typography 
+              sx={{ 
+                fontSize: { xs: 60, sm: 80 },
+                mb: 3,
+                display: 'block'
+              }}
+            >
+              🚀
+            </Typography>
+          </Fade>
+
+          {/* Coming Soon Text */}
+          <Fade in={true} timeout={800}>
+            <Typography 
+              variant="h4" 
+              sx={{ 
+                fontWeight: 700, 
+                color: '#333',
+                mb: 3,
+                fontSize: { xs: '1.5rem', sm: '2rem' }
+              }}
+            >
+              Something Special is Coming Soon
+            </Typography>
+          </Fade>
+
+          {/* Launch Date */}
+          <Fade in={true} timeout={1000}>
+            <Typography 
+              variant="h5" 
+              sx={{ 
+                fontWeight: 600, 
+                color: '#0066d6',
+                mb: 2,
+                fontSize: { xs: '1.2rem', sm: '1.5rem' }
+              }}
+            >
+              27th of August 2025
+            </Typography>
+          </Fade>
+
+          {/* Countdown Timer */}
+          <Fade in={true} timeout={1200}>
+            <Box sx={{ 
+              display: 'flex', 
+              gap: { xs: 0.5, sm: 1, md: 2 }, 
+              justifyContent: 'center',
+              alignItems: 'center',
+              mt: 2,
+              width: '100%',
+              maxWidth: { xs: 320, sm: 400, md: 480 },
+              mx: 'auto'
+            }}>
+              {/* Days */}
+              <Box sx={{ 
+                textAlign: 'center',
+                flex: 1,
+                minWidth: 0
+              }}>
+                <Box sx={{
+                  bgcolor: '#0066d6',
+                  color: 'white',
+                  borderRadius: { xs: 1.5, sm: 2 },
+                  p: { xs: 1, sm: 1.5, md: 2 },
+                  mb: 1,
+                  boxShadow: 3,
+                  transform: timeLeft.seconds % 4 === 0 ? 'scale(1.05)' : 'scale(1)',
+                  transition: 'transform 0.3s ease',
+                  width: '100%'
+                }}>
+                  <Typography 
+                    variant="h4" 
+                    sx={{ 
+                      fontWeight: 700,
+                      fontSize: { xs: '1rem', sm: '1.3rem', md: '1.8rem' },
+                      lineHeight: 1
+                    }}
+                  >
+                    {timeLeft.days.toString().padStart(2, '0')}
+                  </Typography>
+                </Box>
+                <Typography 
+                  variant="caption" 
+                  sx={{ 
+                    color: '#666',
+                    fontWeight: 600,
+                    fontSize: { xs: '0.6rem', sm: '0.7rem', md: '0.8rem' },
+                    display: 'block'
+                  }}
+                >
+                  DAYS
+                </Typography>
+              </Box>
+
+              {/* Hours */}
+              <Box sx={{ 
+                textAlign: 'center',
+                flex: 1,
+                minWidth: 0
+              }}>
+                <Box sx={{
+                  bgcolor: '#28a745',
+                  color: 'white',
+                  borderRadius: { xs: 1.5, sm: 2 },
+                  p: { xs: 1, sm: 1.5, md: 2 },
+                  mb: 1,
+                  boxShadow: 3,
+                  transform: timeLeft.seconds % 4 === 1 ? 'scale(1.05)' : 'scale(1)',
+                  transition: 'transform 0.3s ease',
+                  width: '100%'
+                }}>
+                  <Typography 
+                    variant="h4" 
+                    sx={{ 
+                      fontWeight: 700,
+                      fontSize: { xs: '1rem', sm: '1.3rem', md: '1.8rem' },
+                      lineHeight: 1
+                    }}
+                  >
+                    {timeLeft.hours.toString().padStart(2, '0')}
+                  </Typography>
+                </Box>
+                <Typography 
+                  variant="caption" 
+                  sx={{ 
+                    color: '#666',
+                    fontWeight: 600,
+                    fontSize: { xs: '0.6rem', sm: '0.7rem', md: '0.8rem' },
+                    display: 'block'
+                  }}
+                >
+                  HOURS
+                </Typography>
+              </Box>
+
+              {/* Minutes */}
+              <Box sx={{ 
+                textAlign: 'center',
+                flex: 1,
+                minWidth: 0
+              }}>
+                <Box sx={{
+                  bgcolor: '#ffc107',
+                  color: 'white',
+                  borderRadius: { xs: 1.5, sm: 2 },
+                  p: { xs: 1, sm: 1.5, md: 2 },
+                  mb: 1,
+                  boxShadow: 3,
+                  transform: timeLeft.seconds % 4 === 2 ? 'scale(1.05)' : 'scale(1)',
+                  transition: 'transform 0.3s ease',
+                  width: '100%'
+                }}>
+                  <Typography 
+                    variant="h4" 
+                    sx={{ 
+                      fontWeight: 700,
+                      fontSize: { xs: '1rem', sm: '1.3rem', md: '1.8rem' },
+                      lineHeight: 1
+                    }}
+                  >
+                    {timeLeft.minutes.toString().padStart(2, '0')}
+                  </Typography>
+                </Box>
+                <Typography 
+                  variant="caption" 
+                  sx={{ 
+                    color: '#666',
+                    fontWeight: 600,
+                    fontSize: { xs: '0.6rem', sm: '0.7rem', md: '0.8rem' },
+                    display: 'block'
+                  }}
+                >
+                  MINUTES
+                </Typography>
+              </Box>
+
+              {/* Seconds */}
+              <Box sx={{ 
+                textAlign: 'center',
+                flex: 1,
+                minWidth: 0
+              }}>
+                <Box sx={{
+                  bgcolor: '#dc3545',
+                  color: 'white',
+                  borderRadius: { xs: 1.5, sm: 2 },
+                  p: { xs: 1, sm: 1.5, md: 2 },
+                  mb: 1,
+                  boxShadow: 3,
+                  transform: timeLeft.seconds % 4 === 3 ? 'scale(1.05)' : 'scale(1)',
+                  transition: 'transform 0.3s ease',
+                  width: '100%'
+                }}>
+                  <Typography 
+                    variant="h4" 
+                    sx={{ 
+                      fontWeight: 700,
+                      fontSize: { xs: '1rem', sm: '1.3rem', md: '1.8rem' },
+                      lineHeight: 1,
+                      animation: 'pulse-number 1s infinite'
+                    }}
+                  >
+                    {timeLeft.seconds.toString().padStart(2, '0')}
+                  </Typography>
+                </Box>
+                <Typography 
+                  variant="caption" 
+                  sx={{ 
+                    color: '#666',
+                    fontWeight: 600,
+                    fontSize: { xs: '0.6rem', sm: '0.7rem', md: '0.8rem' },
+                    display: 'block'
+                  }}
+                >
+                  SECONDS
+                </Typography>
+              </Box>
+            </Box>
+          </Fade>
+
+          {/* Decorative Elements */}
+          <Fade in={true} timeout={1400}>
+            <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center', gap: 1 }}>
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                bgcolor: '#0066d6',
+                animation: 'pulse 2s infinite'
+              }} />
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                bgcolor: '#0066d6',
+                animation: 'pulse 2s infinite 0.5s'
+              }} />
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                bgcolor: '#0066d6',
+                animation: 'pulse 2s infinite 1s'
+              }} />
+            </Box>
+          </Fade>
+        </Box>
+
+        {/* Footer at bottom */}
+        <Box sx={{ mt: 'auto', width: '100%' }}>
+          <Footer />
+        </Box>
+
+        {/* CSS Animation */}
+        <style jsx global>{`
+          @keyframes pulse {
+            0%, 100% {
+              opacity: 0.3;
+              transform: scale(1);
+            }
+            50% {
+              opacity: 1;
+              transform: scale(1.2);
+            }
+          }
+          
+          @keyframes pulse-number {
+            0%, 100% {
+              opacity: 1;
+              transform: scale(1);
+            }
+            50% {
+              opacity: 0.8;
+              transform: scale(0.95);
+            }
+          }
+        `}</style>
+      </Box>
+
+      {/* Commented out all previous content */}
+      {/*
       <Box sx={{ 
         maxWidth: 480, 
         mx: 'auto', 
@@ -87,7 +433,6 @@ export default function AudioBook() {
         pb: 0
       }}>
         <Box sx={{ p: 2, pt: 0 }}>
-        {/* Loading/Error */}
         {loading ? (
           <Box sx={{ p: 4, textAlign: 'center' }}>
             <Typography>Loading...</Typography>
@@ -97,7 +442,6 @@ export default function AudioBook() {
             <Typography color="error">{error}</Typography>
           </Box>
         ) : <>
-        {/* Trending */}
         <Box sx={{ mt: 2 }} />
         <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Trending</Typography></Fade>
         <Box
@@ -140,7 +484,6 @@ export default function AudioBook() {
           ))}
         </Box>
 
-        {/* New Release */}
         <Box sx={{ mt: 2.5 }} />
         <Fade in={true} timeout={700}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>New Release</Typography></Fade>
         <Box
@@ -188,7 +531,6 @@ export default function AudioBook() {
           ))}
         </Box>
 
-        {/* Most listen audio */}
         <Box sx={{ mt: 2.5 }} />
         <Fade in={true} timeout={800}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Most listen audio</Typography></Fade>
         <Box
@@ -233,6 +575,7 @@ export default function AudioBook() {
         <Footer />
         </Box>
       </Box>
+      */}
     </Box>
   );
 } 

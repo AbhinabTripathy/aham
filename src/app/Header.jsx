@@ -852,48 +852,6 @@ export default function Header({ selectedNav = 'home', searchPlaceholder = 'Grap
               '&:hover': {
                 transform: 'translateY(-2px)'
               }
-            }} onClick={() => router.push('/audiobook') }>
-              <Box sx={{
-                bgcolor: selectedNav === 'audiobook' ? '#0066d6' : 'transparent',
-                borderRadius: selectedNav === 'audiobook' ? 2 : 1,
-                p: { xs: 0.4, sm: 0.6 },
-                mb: { xs: 0.2, sm: 0.4 },
-                boxShadow: selectedNav === 'audiobook' ? 3 : 0,
-                width: { xs: 24, sm: 32 },
-                height: { xs: 26, sm: 34 },
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.3s ease',
-                transform: selectedNav === 'audiobook' ? 'scale(1.1)' : 'scale(1)',
-                border: selectedNav === 'audiobook' ? '2px solid rgba(255,255,255,0.3)' : 'none',
-              }}>
-                <Image
-                  src={audiobookIcon}
-                  alt="Audiobook"
-                  width={selectedNav === 'audiobook' ? 16 : 18}
-                  height={selectedNav === 'audiobook' ? 16 : 18}
-                  style={{ objectFit: 'contain' }}
-                />
-              </Box>
-              <Typography variant="caption" sx={{ 
-                color: '#fff', 
-                fontWeight: selectedNav === 'audiobook' ? 700 : 500, 
-                fontSize: { xs: 10, sm: 12 },
-                transition: 'all 0.2s ease',
-                textShadow: selectedNav === 'audiobook' ? '0 0 8px rgba(0,102,214,0.8)' : 'none'
-              }}>Audiobook</Typography>
-            </Box>
-            <Box sx={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center', 
-              color: '#fff', 
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              '&:hover': {
-                transform: 'translateY(-2px)'
-              }
             }} onClick={() => router.push('/mall') }>
               <Box sx={{
                 bgcolor: selectedNav === 'mall' ? '#0066d6' : 'transparent',
@@ -925,6 +883,74 @@ export default function Header({ selectedNav = 'home', searchPlaceholder = 'Grap
                 transition: 'all 0.2s ease',
                 textShadow: selectedNav === 'mall' ? '0 0 8px rgba(0,102,214,0.8)' : 'none'
               }}>Mall</Typography>
+            </Box>
+            {/* AudioBook - Coming Soon */}
+            <Box sx={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              color: '#fff', 
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                transform: 'translateY(-2px)'
+              }
+            }} onClick={() => router.push('/audiobook') }>
+              <Box sx={{
+                bgcolor: selectedNav === 'audiobook' ? '#0066d6' : 'transparent',
+                borderRadius: selectedNav === 'audiobook' ? 2 : 1,
+                p: { xs: 0.4, sm: 0.6 },
+                mb: { xs: 0.2, sm: 0.4 },
+                boxShadow: selectedNav === 'audiobook' ? 3 : 0,
+                width: { xs: 24, sm: 32 },
+                height: { xs: 26, sm: 34 },
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease',
+                transform: selectedNav === 'audiobook' ? 'scale(1.1)' : 'scale(1)',
+                border: selectedNav === 'audiobook' ? '2px solid rgba(255,255,255,0.3)' : 'none',
+              }}>
+                {/* Commented out AudioBook icon */}
+                {/*
+                <Image
+                  src={audiobookIcon}
+                  alt="Audiobook"
+                  width={selectedNav === 'audiobook' ? 16 : 18}
+                  height={selectedNav === 'audiobook' ? 16 : 18}
+                  style={{ objectFit: 'contain' }}
+                />
+                */}
+                {/* Coming Soon Icon */}
+                <Typography 
+                  sx={{ 
+                    fontSize: { xs: 14, sm: 16 },
+                    fontWeight: 'bold',
+                    color: '#fff',
+                    textAlign: 'center'
+                  }}
+                >
+                  🚀
+                </Typography>
+              </Box>
+              {/* Commented out AudioBook text */}
+              {/*
+              <Typography variant="caption" sx={{ 
+                color: '#fff', 
+                fontWeight: selectedNav === 'audiobook' ? 700 : 500, 
+                fontSize: { xs: 10, sm: 12 },
+                transition: 'all 0.2s ease',
+                textShadow: selectedNav === 'audiobook' ? '0 0 8px rgba(0,102,214,0.8)' : 'none'
+              }}>Audiobook</Typography>
+              */}
+              {/* Coming Soon Text */}
+              <Typography variant="caption" sx={{ 
+                color: '#fff', 
+                fontWeight: selectedNav === 'audiobook' ? 700 : 500, 
+                fontSize: { xs: 9, sm: 11 },
+                transition: 'all 0.2s ease',
+                textShadow: selectedNav === 'audiobook' ? '0 0 8px rgba(0,102,214,0.8)' : 'none'
+              }}>Coming Soon</Typography>
             </Box>
           </Box>
         </Box>

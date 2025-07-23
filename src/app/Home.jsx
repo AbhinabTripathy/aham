@@ -61,38 +61,6 @@ const mallItems = [
   { img: '/rudra-shirt.png', title: 'Rudra', edition: 'Green Edition', bg: '#4caf50' },
 ];
 
-const mostListenAudio = [
-  { img: '/satyayug.png', title: 'Satyayug 1', author: 'Author 1', bg: '#ffe082' },
-  { img: '/yogi3000.png', title: 'Yogi 3000 1', author: 'Author 2', bg: '#b3e0ff' },
-  { img: '/satyayug.png', title: 'Satyayug 2', author: 'Author 3', bg: '#ffe082' },
-  { img: '/yogi3000.png', title: 'Yogi 3000 2', author: 'Author 4', bg: '#b3e0ff' },
-  { img: '/satyayug.png', title: 'Satyayug 3', author: 'Author 5', bg: '#ffe082' },
-  { img: '/yogi3000.png', title: 'Yogi 3000 3', author: 'Author 6', bg: '#b3e0ff' },
-  { img: '/satyayug.png', title: 'Satyayug 4', author: 'Author 7', bg: '#ffe082' },
-  { img: '/yogi3000.png', title: 'Yogi 3000 4', author: 'Author 8', bg: '#b3e0ff' },
-  { img: '/satyayug.png', title: 'Satyayug 5', author: 'Author 9', bg: '#ffe082' },
-  { img: '/yogi3000.png', title: 'Yogi 3000 5', author: 'Author 10', bg: '#b3e0ff' },
-  { img: '/satyayug.png', title: 'Satyayug 6', author: 'Author 11', bg: '#ffe082' },
-  { img: '/yogi3000.png', title: 'Yogi 3000 6', author: 'Author 12', bg: '#b3e0ff' },
-];
-
-const mostReadNovel = [
-  { id: 1, img: paika, title: 'Paika Revolution' },
-  { id: 2, img: paika, title: 'Paika Revolution' },
-  { id: 3, img: paika, title: 'Paika Revolution' },
-  { id: 4, img: paika, title: 'Paika Revolution' },
-  { id: 5, img: paika, title: 'Paika Revolution' },
-  { id: 6, img: paika, title: 'Paika Revolution' },
-  { id: 7, img: paika, title: 'Paika Revolution' },
-  { id: 8, img: paika, title: 'Paika Revolution' },
-  { id: 9, img: paika, title: 'Paika Revolution' },
-  { id: 10, img: paika, title: 'Paika Revolution' },
-  { id: 11, img: paika, title: 'Paika Revolution' },
-  { id: 12, img: paika, title: 'Paika Revolution' },
-  { id: 13, img: paika, title: 'Paika Revolution' },
-  { id: 14, img: paika, title: 'Paika Revolution' },
-];
-
 function getImageUrl(path) {
   if (!path) return '/fallback.png';
   if (path.startsWith('/uploads')) {
@@ -103,6 +71,7 @@ function getImageUrl(path) {
 
 export default function Home() {
   const [contentData, setContentData] = useState({});
+  const [graphicNovels, setGraphicNovels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -111,10 +80,17 @@ export default function Home() {
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.get('https://api.ahamcore.com/api/user/published-content');
-        console.log('Fetched data:', res.data);
-        setContentData(res.data.data || {});
+        // Fetch graphic novels using GET method
+        const novelsRes = await axios.get('https://api.ahamcore.com/api/user/graphic-novels');
+        
+        // Extract graphic novels data from API response
+        const novels = novelsRes.data.data || [];
+        
+        // Use graphic novels for both trending and Read Novel sections
+        setContentData({ graphicNovels: novels });
+        setGraphicNovels(Array.isArray(novels) ? novels : []);
       } catch (err) {
+        console.error('Error fetching data:', err);
         setError('Failed to load content.');
       } finally {
         setLoading(false);
@@ -128,16 +104,6 @@ export default function Home() {
     ...(Array.isArray(contentData?.audiobooks) ? contentData.audiobooks : []),
     ...(Array.isArray(contentData?.graphicNovels) ? contentData.graphicNovels : [])
   ];
-
-  // Most listen audio: audiobooks only
-  const mostListenAudio = Array.isArray(contentData?.audiobooks)
-    ? contentData.audiobooks
-    : [];
-
-  // Most read novel: graphicNovels
-  const mostReadNovel = Array.isArray(contentData?.graphicNovels)
-    ? contentData.graphicNovels
-    : [];
 
   const sliderSettings = {
     dots: true,
@@ -167,284 +133,406 @@ export default function Home() {
         position: 'relative',
         pb: 0
       }}>
-        {/* Trending */}
-        <Box sx={{ p: 2, pt: 0 }}>
-        <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Trending</Typography></Fade>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            overflowX: 'auto',
-            mb: 2,
-            pb: 1,
-            px: 1,
-            scrollbarWidth: 'none',
-            '&::-webkit-scrollbar': { display: 'none' },
-            scrollBehavior: 'smooth',
-          }}
-        >
-          {trending.length === 0 ? (
-            <Typography sx={{ p: 2 }}>No trending content found.</Typography>
-          ) : trending.map((item, idx) => (
-            <Grow in={true} timeout={400 + idx * 80} key={item._id || idx}>
-              <Box
-                sx={{
-                  minWidth: 120,
-                  maxWidth: 160,
-                  height: 150,
-                  position: 'relative',
-                  flexShrink: 0,
-                }}
-              >
-                <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative', bgcolor: '#fff' }}>
-                  <CardMedia component="img" image={getImageUrl(item.iconPath || item.icon || item.novelIcon)} alt={item.title || 'Trending'} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </Card>
-                <Box sx={{ position: 'absolute', bottom: -10, left: -8, fontWeight: 900, fontSize: 22, color: '#111', lineHeight: 1, zIndex: 2, background: 'rgba(255,255,255,0.95)', borderRadius: '50%', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 2 }}>
-                  {idx + 1}
-                </Box>
-              </Box>
-            </Grow>
-          ))}
-        </Box>
-        {/* Banner Slider */}
-        <Box sx={{ mt: 2 }} />
-        <Fade in={true} timeout={500}>
-          <Box sx={{ mb: 2, position: 'relative' }}>
-            <Slider {...sliderSettings} className="banner-slider">
-              {bannerSlides.map((slide, idx) => (
-                <Paper key={idx} elevation={3} sx={{ borderRadius: 3, overflow: 'hidden', position: 'relative', minHeight: 80 }}>
-                  <Box sx={{ position: 'relative', height: 80, bgcolor: '#000' }}>
-                    <img src={slide.img} alt={slide.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7 }} />
-                    <Box sx={{ 
-                      position: 'absolute', 
-                      top: 0, 
-                      left: 0, 
+        {/* Trending - Only show if there's content */}
+        {trending.length > 0 && (
+          <Box sx={{ p: 2, pt: 0 }}>
+            <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Trending</Typography></Fade>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+                overflowX: 'auto',
+                mb: 1.5,
+                pb: 1,
+                px: 1,
+                scrollbarWidth: 'none',
+                '&::-webkit-scrollbar': { display: 'none' },
+                scrollBehavior: 'smooth',
+              }}
+            >
+                        {trending.map((item, idx) => {
+            // Get Novel Image: Use novelIcon or first episode's iconPath as fallback (same logic as Read Novel section)
+            const trendingImage = item.novelIcon || 
+                                (item.episodes && item.episodes.length > 0 ? item.episodes[0].iconPath : null) ||
+                                paika.src; // fallback to static image
+            
+            return (
+              <Grow in={true} timeout={400 + idx * 80} key={item._id || item.id || idx}>
+                <Link href={`/novel/${item.id}`} style={{ textDecoration: 'none' }}>
+                  <Box
+                    sx={{
+                      width: 140, // Fixed width for all cards
+                      height: 150, // Fixed height for all cards
+                      minWidth: 140, // Ensure consistent minimum width
+                      maxWidth: 140, // Ensure consistent maximum width
+                      position: 'relative',
+                      flexShrink: 0,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <Card sx={{ 
+                      borderRadius: 3, 
+                      overflow: 'hidden', 
                       width: '100%', 
                       height: '100%', 
-                      display: 'flex', 
-                      flexDirection: 'column', 
-                      justifyContent: 'space-between', 
-                      p: 1,
-                      pb: 2.5
+                      boxShadow: 3, 
+                      position: 'relative', 
+                      bgcolor: '#fff',
+                      transition: 'transform 0.2s ease-in-out',
+                      '&:hover': {
+                        transform: 'scale(1.02)',
+                      }
                     }}>
-                      <Typography variant="h4" sx={{ 
-                        color: slide.color, 
-                        fontWeight: 700, 
-                        letterSpacing: 1, 
-                        fontFamily: 'monospace', 
-                        textShadow: '2px 2px 8px #000',
-                        fontSize: '0.9rem'
-                      }}>
-                        {slide.title}
-                      </Typography>
-                      <Typography variant="caption" sx={{ 
-                        color: '#fff', 
-                        alignSelf: 'flex-end', 
-                        textShadow: '1px 1px 6px #000',
-                        fontSize: '0.6rem'
-                      }}>{slide.author}</Typography>
+                      <CardMedia 
+                        component="img" 
+                        image={getImageUrl(trendingImage)} 
+                        alt={item.title || 'Trending'} 
+                        sx={{ 
+                          width: '100%', 
+                          height: '100%', 
+                          objectFit: 'cover',
+                          display: 'block' // Ensure consistent display
+                        }} 
+                      />
+                    </Card>
+                    <Box sx={{ 
+                      position: 'absolute', 
+                      bottom: -10, 
+                      left: -8, 
+                      fontWeight: 900, 
+                      fontSize: 22, 
+                      color: '#111', 
+                      lineHeight: 1, 
+                      zIndex: 2, 
+                      background: 'rgba(255,255,255,0.95)', 
+                      borderRadius: '50%', 
+                      width: 30, 
+                      height: 30, 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      boxShadow: 2 
+                    }}>
+                      {idx + 1}
                     </Box>
                   </Box>
-                </Paper>
-              ))}
-            </Slider>
-            <style jsx global>{`
-              .banner-slider .slick-dots {
-                position: absolute !important;
-                bottom: 12px !important;
-                left: 0;
-                right: 0;
-                margin: 0 auto;
-                width: 100%;
-                display: flex !important;
-                justify-content: center;
-                z-index: 2;
-              }
-              .banner-slider .slick-dots li button:before {
-                color: #fff !important;
-                opacity: 0.9;
-                font-size: 10px;
-              }
-              .banner-slider .slick-dots li.slick-active button:before {
-                color: #1976d2 !important;
-                opacity: 1;
-              }
-            `}</style>
+                </Link>
+              </Grow>
+            );
+          })}
+            </Box>
           </Box>
-        </Fade>
-        {/* New Release */}
-        <Box sx={{ mt: 2.5 }} />
-        <Fade in={true} timeout={700}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>New Release</Typography></Fade>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            overflowX: 'auto',
-            mb: 2,
-            pb: 1,
-            px: 1,
-            scrollbarWidth: 'none',
-            '&::-webkit-scrollbar': { display: 'none' },
-            scrollBehavior: 'smooth',
-          }}
-        >
-          {newReleases.map((item, idx) => (
-            <Grow in={true} timeout={400 + idx * 80} key={idx}>
-              <Box
-                sx={{
-                  minWidth: 120,
-                  maxWidth: 160,
-                  height: 80,
-                  display: 'flex',
-                  alignItems: 'center',
-                  bgcolor: item.bg,
-                  borderRadius: 3,
-                  overflow: 'hidden',
-                  boxShadow: 2,
-                  position: 'relative',
-                  flexShrink: 0,
-                }}
-              >
-                <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
-                  <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, mb: 0.5, fontSize: 14 }}>{item.title}</Typography>
-                  <Typography variant="body2" sx={{ color: '#444', fontSize: 11 }}>{item.author}</Typography>
+        )}
+
+        <Box sx={{ p: 2, pt: trending.length > 0 ? 0 : 2 }}>
+          {/* Banner Slider */}
+          <Box sx={{ mt: trending.length > 0 ? 1 : 0 }} />
+          <Fade in={true} timeout={500}>
+            <Box sx={{ mb: 1.5, position: 'relative' }}>
+              <Slider {...sliderSettings} className="banner-slider">
+                {bannerSlides.map((slide, idx) => (
+                  <Paper key={idx} elevation={3} sx={{ borderRadius: 3, overflow: 'hidden', position: 'relative', minHeight: 80 }}>
+                    <Box sx={{ position: 'relative', height: 80, bgcolor: '#000' }}>
+                      <img src={slide.img} alt={slide.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7 }} />
+                      <Box sx={{ 
+                        position: 'absolute', 
+                        top: 0, 
+                        left: 0, 
+                        width: '100%', 
+                        height: '100%', 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        justifyContent: 'space-between', 
+                        p: 1,
+                        pb: 2.5
+                      }}>
+                        <Typography variant="h4" sx={{ 
+                          color: slide.color, 
+                          fontWeight: 700, 
+                          letterSpacing: 1, 
+                          fontFamily: 'monospace', 
+                          textShadow: '2px 2px 8px #000',
+                          fontSize: '0.9rem'
+                        }}>
+                          {slide.title}
+                        </Typography>
+                        <Typography variant="caption" sx={{ 
+                          color: '#fff', 
+                          alignSelf: 'flex-end', 
+                          textShadow: '1px 1px 6px #000',
+                          fontSize: '0.6rem'
+                        }}>{slide.author}</Typography>
+                      </Box>
+                    </Box>
+                  </Paper>
+                ))}
+              </Slider>
+              <style jsx global>{`
+                .banner-slider .slick-dots {
+                  position: absolute !important;
+                  bottom: 12px !important;
+                  left: 0;
+                  right: 0;
+                  margin: 0 auto;
+                  width: 100%;
+                  display: flex !important;
+                  justify-content: center;
+                  z-index: 2;
+                }
+                .banner-slider .slick-dots li button:before {
+                  color: #fff !important;
+                  opacity: 0.9;
+                  font-size: 10px;
+                }
+                .banner-slider .slick-dots li.slick-active button:before {
+                  color: #1976d2 !important;
+                  opacity: 1;
+                }
+              `}</style>
+            </Box>
+          </Fade>
+
+          {/* New Release */}
+          <Box sx={{ mt: 1.5 }} />
+          <Fade in={true} timeout={700}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>New Release</Typography></Fade>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              overflowX: 'auto',
+              mb: 1.5,
+              pb: 1,
+              px: 1,
+              scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': { display: 'none' },
+              scrollBehavior: 'smooth',
+            }}
+          >
+            {newReleases.map((item, idx) => (
+              <Grow in={true} timeout={400 + idx * 80} key={idx}>
+                <Box
+                  sx={{
+                    minWidth: 120,
+                    maxWidth: 160,
+                    height: 80,
+                    display: 'flex',
+                    alignItems: 'center',
+                    bgcolor: item.bg,
+                    borderRadius: 3,
+                    overflow: 'hidden',
+                    boxShadow: 2,
+                    position: 'relative',
+                    flexShrink: 0,
+                  }}
+                >
+                  <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
+                    <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, mb: 0.5, fontSize: 14 }}>{item.title}</Typography>
+                    <Typography variant="body2" sx={{ color: '#444', fontSize: 11 }}>{item.author}</Typography>
+                  </Box>
+                  <Box sx={{ height: '100%', width: 60, position: 'relative', zIndex: 1 }}>
+                    <img src={item.img} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'cover', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} />
+                  </Box>
                 </Box>
-                <Box sx={{ height: '100%', width: 60, position: 'relative', zIndex: 1 }}>
-                  <img src={item.img} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'cover', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} />
+              </Grow>
+            ))}
+          </Box>
+
+          {/* Mall */}
+          <Box sx={{ mt: 1.5 }} />
+          <Fade in={true} timeout={800}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Mall</Typography></Fade>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              overflowX: 'auto',
+              mb: 1.5,
+              pb: 1,
+              px: 1,
+              scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': { display: 'none' },
+              scrollBehavior: 'smooth',
+            }}
+          >
+            {mallItems.map((item, idx) => (
+              <Grow in={true} timeout={400 + idx * 80} key={idx}>
+                <Box
+                  sx={{
+                    minWidth: 120,
+                    maxWidth: 160,
+                    height: 80,
+                    bgcolor: item.bg,
+                    borderRadius: 4,
+                    display: 'flex',
+                    alignItems: 'center',
+                    boxShadow: 3,
+                    position: 'relative',
+                    overflow: 'hidden',
+                    px: 1,
+                    flexShrink: 0,
+                  }}
+                >
+                  <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 2 }}>
+                    <Typography variant="h6" sx={{ color: '#fff', fontWeight: 700, mb: 0.5, fontSize: 14 }}>{item.title}</Typography>
+                    <Typography variant="subtitle2" sx={{ color: '#fff', fontWeight: 400, fontSize: 11 }}>{item.edition}</Typography>
+                  </Box>
+                  <Box sx={{ height: 50, width: 45, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', zIndex: 1 }}>
+                    <img src={item.img} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'contain', background: 'none', border: 'none' }} />
+                  </Box>
                 </Box>
-              </Box>
-            </Grow>
-          ))}
-        </Box>
-        {/* Mall */}
-        <Box sx={{ mt: 2.5 }} />
-        <Fade in={true} timeout={800}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Mall</Typography></Fade>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            overflowX: 'auto',
-            mb: 2,
-            pb: 1,
-            px: 1,
-            scrollbarWidth: 'none',
-            '&::-webkit-scrollbar': { display: 'none' },
-            scrollBehavior: 'smooth',
-          }}
-        >
-          {mallItems.map((item, idx) => (
-            <Grow in={true} timeout={400 + idx * 80} key={idx}>
-              <Box
-                sx={{
-                  minWidth: 120,
-                  maxWidth: 160,
-                  height: 80,
-                  bgcolor: item.bg,
-                  borderRadius: 4,
-                  display: 'flex',
-                  alignItems: 'center',
-                  boxShadow: 3,
-                  position: 'relative',
-                  overflow: 'hidden',
-                  px: 1,
-                  flexShrink: 0,
-                }}
-              >
-                <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 2 }}>
-                  <Typography variant="h6" sx={{ color: '#fff', fontWeight: 700, mb: 0.5, fontSize: 14 }}>{item.title}</Typography>
-                  <Typography variant="subtitle2" sx={{ color: '#fff', fontWeight: 400, fontSize: 11 }}>{item.edition}</Typography>
+              </Grow>
+            ))}
+          </Box>
+
+          {/* Most listen audio - COMMENTED OUT */}
+          {/*
+          <Box sx={{ mt: 1.5 }} />
+          <Fade in={true} timeout={900}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Most listen audio</Typography></Fade>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              overflowX: 'auto',
+              mb: 1.5,
+              pb: 1,
+              px: 1,
+              scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': { display: 'none' },
+              scrollBehavior: 'smooth',
+            }}
+          >
+            {mostListenAudio.length === 0 ? (
+              <Typography sx={{ p: 2 }}>No audio books found.</Typography>
+            ) : mostListenAudio.map((item, idx) => (
+              <Grow in={true} timeout={400 + idx * 80} key={item._id || idx}>
+                <Box
+                  sx={{
+                    minWidth: 120,
+                    maxWidth: 160,
+                    height: 80,
+                    display: 'flex',
+                    alignItems: 'center',
+                    bgcolor: '#ffe082',
+                    borderRadius: 3,
+                    overflow: 'hidden',
+                    boxShadow: 2,
+                    position: 'relative',
+                    flexShrink: 0,
+                  }}
+                >
+                  <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
+                    <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, mb: 0.5, fontSize: 14 }}>{item.title}</Typography>
+                    <Typography variant="body2" sx={{ color: '#444', fontSize: 11 }}>{item.role}</Typography>
+                  </Box>
+                  <Box sx={{ height: '100%', width: 60, position: 'relative', zIndex: 1 }}>
+                    <img src={getImageUrl(item.iconPath || item.icon || item.novelIcon)} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'cover', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} />
+                  </Box>
                 </Box>
-                <Box sx={{ height: 50, width: 45, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', zIndex: 1 }}>
-                  <img src={item.img} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'contain', background: 'none', border: 'none' }} />
-                </Box>
-              </Box>
-            </Grow>
-          ))}
-        </Box>
-        {/* Most listen audio */}
-        <Box sx={{ mt: 2.5 }} />
-        <Fade in={true} timeout={900}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Most listen audio</Typography></Fade>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            overflowX: 'auto',
-            mb: 2,
-            pb: 1,
-            px: 1,
-            scrollbarWidth: 'none',
-            '&::-webkit-scrollbar': { display: 'none' },
-            scrollBehavior: 'smooth',
-          }}
-        >
-          {mostListenAudio.length === 0 ? (
-            <Typography sx={{ p: 2 }}>No audio books found.</Typography>
-          ) : mostListenAudio.map((item, idx) => (
-            <Grow in={true} timeout={400 + idx * 80} key={item._id || idx}>
-              <Box
-                sx={{
-                  minWidth: 120,
-                  maxWidth: 160,
-                  height: 80,
-                  display: 'flex',
-                  alignItems: 'center',
-                  bgcolor: '#ffe082',
-                  borderRadius: 3,
-                  overflow: 'hidden',
-                  boxShadow: 2,
-                  position: 'relative',
-                  flexShrink: 0,
-                }}
-              >
-                <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
-                  <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, mb: 0.5, fontSize: 14 }}>{item.title}</Typography>
-                  <Typography variant="body2" sx={{ color: '#444', fontSize: 11 }}>{item.role}</Typography>
-                </Box>
-                <Box sx={{ height: '100%', width: 60, position: 'relative', zIndex: 1 }}>
-                  <img src={getImageUrl(item.iconPath || item.icon || item.novelIcon)} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'cover', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} />
-                </Box>
-              </Box>
-            </Grow>
-          ))}
-        </Box>
-        {/* Most read novel */}
-        <Box sx={{ mt: 2.5 }} />
-        <Fade in={true} timeout={1000}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Most read novel</Typography></Fade>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            overflowX: 'auto',
-            mb: 2,
-            pb: 1,
-            px: 1,
-            scrollbarWidth: 'none',
-            '&::-webkit-scrollbar': { display: 'none' },
-            scrollBehavior: 'smooth',
-          }}
-        >
-          {mostReadNovel.length === 0 ? (
-            <Typography sx={{ p: 2 }}>No graphic novels found.</Typography>
-          ) : mostReadNovel.map((item, idx) => (
-            <Grow in={true} timeout={400 + idx * 80} key={item._id || idx}>
-              <Box
-                sx={{
-                  minWidth: 100,
-                  maxWidth: 140,
-                  height: 150,
-                  flexShrink: 0,
-                  textDecoration: 'none',
-                }}
-              >
-                <Card sx={{ borderRadius: 3, overflow: 'hidden', width: '100%', height: '100%', boxShadow: 3, position: 'relative' }}>
-                  <CardMedia component="img" image={getImageUrl(item.iconPath || item.novelIcon)} alt={item.title} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </Card>
-              </Box>
-            </Grow>
-          ))}
+              </Grow>
+            ))}
+          </Box>
+          */}
+
+          {/* Read Novel */}
+          <Box sx={{ mt: 1.5 }} />
+          <Fade in={true} timeout={1000}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Read Novel</Typography></Fade>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              overflowX: 'auto',
+              mb: 1.5,
+              pb: 1,
+              px: 1,
+              scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': { display: 'none' },
+              scrollBehavior: 'smooth',
+            }}
+          >
+            {loading ? (
+              <Typography sx={{ p: 2 }}>Loading graphic novels...</Typography>
+            ) : graphicNovels.length === 0 ? (
+              <Typography sx={{ p: 2 }}>No graphic novels found.</Typography>
+            ) : graphicNovels.map((item, idx) => {
+              // Get Novel Image: Use novelIcon or first episode's iconPath as fallback
+              const novelImage = item.novelIcon || 
+                               (item.episodes && item.episodes.length > 0 ? item.episodes[0].iconPath : null) ||
+                               paika.src; // fallback to static image
+              
+              // Get Novel Title
+              const novelTitle = item.title || 'Untitled Novel';
+              
+              return (
+                <Grow in={true} timeout={400 + idx * 80} key={item.id || idx}>
+                  <Link href={`/novel/${item.id}`} style={{ textDecoration: 'none' }}>
+                    <Box
+                      sx={{
+                        width: 140, // Fixed width to match Trending cards
+                        height: 150, // Fixed height to match Trending cards
+                        minWidth: 140, // Ensure consistent minimum width
+                        maxWidth: 140, // Ensure consistent maximum width
+                        flexShrink: 0,
+                        textDecoration: 'none',
+                        cursor: 'pointer',
+                        position: 'relative',
+                      }}
+                    >
+                      <Card sx={{ 
+                        borderRadius: 3, 
+                        overflow: 'hidden', 
+                        width: '100%', 
+                        height: '100%', 
+                        boxShadow: 3, 
+                        position: 'relative',
+                        transition: 'transform 0.2s ease-in-out',
+                        '&:hover': {
+                          transform: 'scale(1.02)',
+                        }
+                      }}>
+                        {/* Novel Image */}
+                        <CardMedia 
+                          component="img" 
+                          image={getImageUrl(novelImage)} 
+                          alt={novelTitle} 
+                          sx={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                        />
+                        {/* Novel Title Overlay */}
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            background: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
+                            color: 'white',
+                            p: 1,
+                            pt: 2,
+                          }}
+                        >
+                          <Typography 
+                            variant="caption" 
+                            sx={{ 
+                              fontSize: '0.75rem', 
+                              fontWeight: 600,
+                              textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
+                              display: '-webkit-box',
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: 'vertical',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis'
+                            }}
+                          >
+                            {novelTitle}
+                          </Typography>
+                        </Box>
+                      </Card>
+                    </Box>
+                  </Link>
+                </Grow>
+              );
+            })}
+          </Box>
         </Box>
         <Footer />
-      </Box>
       </Box>
     </Box>
   );
