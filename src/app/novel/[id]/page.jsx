@@ -137,43 +137,43 @@ export default function NovelDetailPage() {
               {novelData.episodes && novelData.episodes.length > 0 ? (
                 novelData.episodes.map((episode, index) => (
                   <Link href={`/novel/${params.id}/${episode.id}`} passHref key={episode.id}>
-                    <ListItem
-                      alignItems="center"
-                      sx={{
-                        py: 1.5,
-                        px: 1.5,
-                        cursor: 'pointer',
-                        '&:hover': {
-                          backgroundColor: 'action.hover',
-                        },
-                      }}
-                    >
-                      <ListItemAvatar>
+                  <ListItem
+                    alignItems="center"
+                    sx={{
+                      py: 1.5,
+                      px: 1.5,
+                      cursor: 'pointer',
+                      '&:hover': {
+                        backgroundColor: 'action.hover',
+                      },
+                    }}
+                  >
+                    <ListItemAvatar>
                         <Avatar 
                           variant="rounded" 
                           src={getImageUrl(episode.iconPath)} 
                           sx={{ width: 60, height: 60, mr: 2 }} 
                         />
-                      </ListItemAvatar>
-                      <ListItemText
+                    </ListItemAvatar>
+                    <ListItemText
                         primary={`Episode ${episode.episodeNumber}`}
-                        secondary={
-                          <Typography
-                            component="span"
-                            variant="h6"
-                            color="text.primary"
-                            fontWeight="bold"
-                            sx={{ fontSize: '1rem' }}
-                          >
+                      secondary={
+                        <Typography
+                          component="span"
+                          variant="h6"
+                          color="text.primary"
+                          fontWeight="bold"
+                          sx={{ fontSize: '1rem' }}
+                        >
                             {episode.title || `Episode ${episode.episodeNumber}`}
-                          </Typography>
-                        }
-                        primaryTypographyProps={{ color: 'text.secondary', mb: 0.5, fontSize: '0.8rem' }}
-                        secondaryTypographyProps={{ component: 'div' }}
-                      />
-                    </ListItem>
+                        </Typography>
+                      }
+                      primaryTypographyProps={{ color: 'text.secondary', mb: 0.5, fontSize: '0.8rem' }}
+                      secondaryTypographyProps={{ component: 'div' }}
+                    />
+                  </ListItem>
                     {index < novelData.episodes.length - 1 && <Divider variant="inset" component="li" />}
-                  </Link>
+                </Link>
                 ))
               ) : (
                 <Box sx={{ p: 3, textAlign: 'center' }}>

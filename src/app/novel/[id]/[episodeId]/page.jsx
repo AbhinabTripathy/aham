@@ -1,8 +1,20 @@
 'use client';
-import React from 'react';
-import { Box, Typography, IconButton, Paper } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Typography, IconButton, Paper, CircularProgress, Alert } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter, useParams } from 'next/navigation';
+import axios from 'axios';
+import { Document, Page, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
+
+// Set up PDF.js worker
+if (typeof window !== 'undefined') {
+  pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
+}
+
+// Commented out static data - now fetching from API
+/*
 import paika from '../../../assets/images/Paika.png';
 import previewMain from '../../../assets/images/Preview Main.png';
 import preview1 from '../../../assets/images/Previw1.jpeg';
@@ -25,38 +37,140 @@ const episodes = [
   { id: 9, num: 9, title: 'Guerrilla Years', img: paika.src },
   { id: 10, num: 10, title: 'The End and the Echo', img: paika.src },
 ];
+*/
 
 export default function EpisodeReaderPage() {
   const router = useRouter();
   const params = useParams();
-  const episodeId = parseInt(params.episodeId, 10);
-  const episode = episodes.find((e) => e.id === episodeId);
+  const [episodeData, setEpisodeData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [numPages, setNumPages] = useState(null);
+  const [pdfError, setPdfError] = useState(null);
+  const [showFallback, setShowFallback] = useState(false);
 
-  let comicPages = [];
+  // Helper function to construct full image URL
+  const getImageUrl = (path) => {
+    if (!path) return '';
+    return path.startsWith('http') ? path : `https://api.ahamcore.com${path}`;
+  };
 
-  if (episodeId === 2) {
-    comicPages = [
-      { id: 1, img: previewMain.src },
-      { id: 2, img: preview1.src },
-      { id: 3, img: preview2.src },
-      { id: 4, img: preview3.src },
-      { id: 5, img: preview4.src },
-      { id: 6, img: preview5.src },
-      { id: 7, img: preview6.src },
-      { id: 8, img: preview7.src },
-    ];
-  } else {
-    comicPages = Array.from({ length: 10 }, (_, i) => ({
-      id: i + 1,
-      img: paika.src,
-    }));
+  // PDF document load success handler
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+    setPdfError(null);
+    console.log('✅ PDF loaded successfully with', numPages, 'pages');
+  };
+
+  // PDF document load error handler
+  const onDocumentLoadError = (error) => {
+    console.error('❌ PDF load error:', error);
+    // Show fallback after error
+    setTimeout(() => setShowFallback(true), 1000);
+  };
+
+  // Set fallback timeout in case react-pdf is slow
+  useEffect(() => {
+    if (episodeData?.pdfPath && !numPages) {
+      const timer = setTimeout(() => {
+        if (!numPages) {
+          console.log('📄 React-PDF taking too long, showing fallback');
+          setShowFallback(true);
+        }
+      }, 8000); // 8 second timeout
+
+      return () => clearTimeout(timer);
+    }
+  }, [episodeData?.pdfPath, numPages]);
+
+  useEffect(() => {
+    const fetchEpisodeData = async () => {
+      try {
+        setLoading(true);
+        console.log('Fetching episode data...');
+        console.log('Graphic Novel ID:', params.id);
+        console.log('Episode ID:', params.episodeId);
+        
+        const apiUrl = `https://api.ahamcore.com/api/graphic-novels/${params.id}/episodes/${params.episodeId}`;
+        console.log('API URL:', apiUrl);
+        
+        const response = await axios.get(apiUrl);
+        console.log('🔥 Full API Response:', response);
+        console.log('🔥 Response Data:', response.data);
+        console.log('🔥 Response Status:', response.status);
+        
+        // Extract the episode data based on your API structure
+        let episodeData = null;
+        
+        if (response.data.data && response.data.data.episode) {
+          episodeData = response.data.data.episode;
+          console.log('✅ Found episode data in response.data.data.episode');
+        } else if (response.data.episode) {
+          episodeData = response.data.episode;
+          console.log('✅ Found episode data in response.data.episode');
+        } else if (response.data.data) {
+          episodeData = response.data.data;
+          console.log('✅ Found episode data in response.data.data');
+        } else {
+          episodeData = response.data;
+          console.log('✅ Using response.data directly');
+        }
+        
+        console.log('🎯 Final Episode Data:', episodeData);
+        console.log('🎯 Episode Number from API:', episodeData?.episodeNumber);
+        console.log('🎯 Episode Title from API:', episodeData?.title);
+        
+        setEpisodeData(episodeData);
+        setError(null);
+      } catch (err) {
+        console.error('❌ API Error:', err);
+        console.error('❌ Error Response:', err.response);
+        console.error('❌ Error Status:', err.response?.status);
+        console.error('❌ Error Data:', err.response?.data);
+        setError(`Failed to load episode data: ${err.response?.status || err.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (params.id && params.episodeId) {
+      fetchEpisodeData();
+    }
+  }, [params.id, params.episodeId]);
+
+  // Loading state
+  if (loading) {
+    return (
+      <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
-  if (!episode) {
+  // Error state
+  if (error) {
     return (
       <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
-        <Box sx={{ maxWidth: 480, mx: 'auto', backgroundColor: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', minHeight: '100vh', p: 2, textAlign: 'center' }}>
-          <Typography>Episode not found.</Typography>
+        <Box sx={{ maxWidth: 480, mx: 'auto', backgroundColor: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', minHeight: '100vh', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Alert severity="error" sx={{ mb: 2, maxWidth: 400 }}>
+            {error}
+          </Alert>
+          <IconButton onClick={() => router.back()}>
+            <ArrowBackIcon />
+          </IconButton>
+        </Box>
+      </Box>
+    );
+  }
+
+  // No data state
+  if (!episodeData) {
+    return (
+      <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
+        <Box sx={{ maxWidth: 480, mx: 'auto', backgroundColor: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', minHeight: '100vh', p: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Alert severity="warning" sx={{ mb: 2, maxWidth: 400 }}>
+            Episode not found.
+          </Alert>
           <IconButton onClick={() => router.back()}>
             <ArrowBackIcon />
           </IconButton>
@@ -88,22 +202,258 @@ export default function EpisodeReaderPage() {
           </IconButton>
           <Box sx={{ ml: 2 }}>
             <Typography variant="h6" fontWeight="bold" sx={{ fontSize: '1rem' }}>
-              {episode.title}
+              {episodeData?.graphicNovel?.title || 'Episode'} - Episode {episodeData?.episodeNumber || params.episodeId}
             </Typography>
             <Typography variant="subtitle1" sx={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: '0.8rem' }}>
-              Episode {episode.num}
+              {episodeData?.title || `Episode ${episodeData?.episodeNumber || params.episodeId}`}
             </Typography>
           </Box>
         </Paper>
+        
         <Box sx={{ overflowY: 'auto', flex: 1 }}>
-          {comicPages.map((page) => (
-            <img
-              key={page.id}
-              src={page.img}
-              alt={`Page ${page.id}`}
-              style={{ width: '100%', height: 'auto', display: 'block' }}
-            />
-          ))}
+                     {/* Debug info - show in development only */}
+           {process.env.NODE_ENV === 'development' && (
+             <Box sx={{ p: 2, bgcolor: '#f0f0f0', fontSize: '0.8rem', mb: 2 }}>
+               <Typography variant="h6" sx={{ mb: 1 }}>🔍 Debug Information:</Typography>
+               <Typography><strong>Graphic Novel ID:</strong> {params.id}</Typography>
+               <Typography><strong>Episode ID:</strong> {params.episodeId}</Typography>
+               <Typography><strong>API Endpoint:</strong> /api/graphic-novels/{params.id}/episodes/{params.episodeId}</Typography>
+               <Typography sx={{ mt: 1 }}><strong>Episode Data:</strong></Typography>
+               <pre style={{ fontSize: '0.7rem', maxHeight: '150px', overflow: 'auto' }}>
+                 {JSON.stringify(episodeData, null, 2)}
+               </pre>
+             </Box>
+           )}
+          
+          {(() => {
+            if (!episodeData) {
+              return (
+                <Box sx={{ p: 3, textAlign: 'center' }}>
+                  <Typography color="error" sx={{ mb: 2 }}>
+                    ❌ No episode data received from API
+                  </Typography>
+                </Box>
+              );
+            }
+
+            // Try different possible field names for pages
+            const pages = episodeData.pages || 
+                         episodeData.comicPages || 
+                         episodeData.images || 
+                         episodeData.content || 
+                         episodeData.pageImages ||
+                         [];
+            
+            console.log('🔍 Searching for pages in episode data...');
+            console.log('🔍 episodeData.pages:', episodeData.pages);
+            console.log('🔍 episodeData.comicPages:', episodeData.comicPages);
+            console.log('🔍 episodeData.images:', episodeData.images);
+            console.log('🔍 episodeData.content:', episodeData.content);
+            console.log('🔍 Found pages array:', pages);
+            console.log('🔍 Pages length:', pages?.length);
+            
+            if (pages && Array.isArray(pages) && pages.length > 0) {
+              console.log('✅ Rendering', pages.length, 'pages');
+              return (
+                <Box>
+                  <Typography sx={{ p: 2, bgcolor: '#e8f5e8', color: '#2e7d2e' }}>
+                    ✅ Found {pages.length} pages for Episode {episodeData?.episodeNumber || params.episodeId}
+                  </Typography>
+                  {pages.map((page, index) => {
+                    const imageUrl = getImageUrl(page.imagePath || page.image || page.url || page.src || page.path);
+                    console.log(`📄 Page ${index + 1} URL:`, imageUrl);
+                    return (
+                      <img
+                        key={page.id || index}
+                        src={imageUrl}
+                        alt={`Page ${index + 1}`}
+                        style={{ width: '100%', height: 'auto', display: 'block' }}
+                        onError={(e) => {
+                          console.error('❌ Failed to load image:', e.target.src);
+                          e.target.style.display = 'none';
+                        }}
+                        onLoad={() => {
+                          console.log('✅ Successfully loaded image:', imageUrl);
+                        }}
+                      />
+                    );
+                  })}
+                </Box>
+              );
+                        } else if (episodeData.pdfPath) {
+              const pdfUrl = getImageUrl(episodeData.pdfPath);
+              console.log('📄 PDF URL:', pdfUrl);
+              
+              return (
+                <Box sx={{ 
+                  width: '100%', 
+                  minHeight: '100vh',
+                  bgcolor: '#2C2C54'
+                }}>
+                  {/* Clean Header like second image */}
+                  <Box sx={{ 
+                    p: 3, 
+                    bgcolor: '#2C2C54',
+                    color: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2
+                  }}>
+                    <IconButton sx={{ color: 'white' }} onClick={() => router.back()}>
+                      <ArrowBackIcon />
+                    </IconButton>
+                    <Box>
+                      <Typography variant="h5" sx={{ fontWeight: 600, mb: 0.5 }}>
+                        {episodeData?.graphicNovel?.title}
+                      </Typography>
+                      <Typography variant="body2" sx={{ opacity: 0.8 }}>
+                        Episode {episodeData?.episodeNumber}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  {/* Full-Screen PDF Content - Show Complete Data */}
+                  <Box sx={{ 
+                    width: '100%',
+                    minHeight: 'calc(100vh - 120px)',
+                    bgcolor: '#f5f5f5',
+                    overflow: 'auto',
+                    py: 2
+                  }}>
+                    {/* Show fallback iframe if react-pdf fails or takes too long */}
+                    {showFallback ? (
+                      <Box sx={{
+                        width: '100%',
+                        height: 'calc(100vh - 140px)',
+                        display: 'flex',
+                        justifyContent: 'center'
+                      }}>
+                        <iframe
+                          src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&page=1&zoom=page-width`}
+                          width="100%"
+                          height="100%"
+                          style={{ 
+                            border: 'none',
+                            maxWidth: '1200px'
+                          }}
+                          title={`Episode ${episodeData?.episodeNumber} PDF`}
+                        />
+                      </Box>
+                    ) : (
+                      <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        width: '100%'
+                      }}>
+                        <Document
+                          file={pdfUrl}
+                          onLoadSuccess={onDocumentLoadSuccess}
+                          onLoadError={onDocumentLoadError}
+                          loading={
+                            <Box sx={{ 
+                              width: '100%',
+                              height: '80vh',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              bgcolor: '#f5f5f5'
+                            }}>
+                              <CircularProgress size={50} />
+                              <Typography variant="h6" sx={{ mt: 2 }}>
+                                Loading...
+                              </Typography>
+                            </Box>
+                          }
+                        >
+                          {numPages && Array.from({ length: numPages }, (_, index) => (
+                            <Box 
+                              key={`page_${index + 1}`}
+                              sx={{
+                                mb: 2,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                width: '100%'
+                              }}
+                            >
+                              <Page
+                                pageNumber={index + 1}
+                                scale={1.2}
+                                loading={
+                                  <Box sx={{ 
+                                    width: '100%',
+                                    minHeight: 600,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    bgcolor: 'white',
+                                    border: '1px solid #ddd'
+                                  }}>
+                                    <CircularProgress />
+                                  </Box>
+                                }
+                                renderTextLayer={false}
+                                renderAnnotationLayer={false}
+                              />
+                            </Box>
+                          ))}
+                        </Document>
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
+              );
+            } else {
+                return (
+                  <Box sx={{ p: 3, textAlign: 'center' }}>
+                    {/* Episode Icon */}
+                    {episodeData?.iconPath && (
+                      <Box sx={{ mb: 3 }}>
+                        <img
+                          src={getImageUrl(episodeData.iconPath)}
+                          alt={`Episode ${episodeData.episodeNumber} Icon`}
+                          style={{ 
+                            maxWidth: '200px', 
+                            height: 'auto', 
+                            border: '2px solid #ff9800', 
+                            borderRadius: '12px',
+                            boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+                          }}
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                          }}
+                        />
+                      </Box>
+                    )}
+                    
+                    <Typography variant="h5" color="warning.main" sx={{ mb: 2, fontWeight: 600 }}>
+                      ⚠️ {episodeData?.graphicNovel?.title || 'Episode'} - Episode {episodeData?.episodeNumber || params.episodeId}
+                    </Typography>
+                    
+                    <Typography variant="h6" color="text.primary" sx={{ mb: 3 }}>
+                      No Content Available
+                    </Typography>
+                    
+                    <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+                      This episode was found but doesn't contain pages or PDF content yet.
+                    </Typography>
+                    
+                    <Typography variant="body2" color="text.secondary">
+                      Episode ID: {episodeData?.id} | Created: {episodeData?.createdAt ? new Date(episodeData.createdAt).toLocaleDateString() : 'Unknown'}
+                    </Typography>
+                    
+                    {process.env.NODE_ENV === 'development' && (
+                      <Box sx={{ mt: 3, p: 2, bgcolor: '#f5f5f5', borderRadius: 1 }}>
+                        <Typography variant="body2" color="text.secondary">
+                          Available fields: {Object.keys(episodeData || {}).join(', ') || 'None'}
+                        </Typography>
+                      </Box>
+                    )}
+                  </Box>
+                );
+              }
+          })()}
         </Box>
       </Box>
     </Box>

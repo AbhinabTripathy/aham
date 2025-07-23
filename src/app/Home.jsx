@@ -135,21 +135,21 @@ export default function Home() {
       }}>
         {/* Trending - Only show if there's content */}
         {trending.length > 0 && (
-          <Box sx={{ p: 2, pt: 0 }}>
-            <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Trending</Typography></Fade>
-            <Box
-              sx={{
-                display: 'flex',
-                gap: 2,
-                overflowX: 'auto',
+        <Box sx={{ p: 2, pt: 0 }}>
+        <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Trending</Typography></Fade>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            overflowX: 'auto',
                 mb: 1.5,
-                pb: 1,
-                px: 1,
-                scrollbarWidth: 'none',
-                '&::-webkit-scrollbar': { display: 'none' },
-                scrollBehavior: 'smooth',
-              }}
-            >
+            pb: 1,
+            px: 1,
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            scrollBehavior: 'smooth',
+          }}
+        >
                         {trending.map((item, idx) => {
             // Get Novel Image: Use novelIcon or first episode's iconPath as fallback (same logic as Read Novel section)
             const trendingImage = item.novelIcon || 
@@ -159,17 +159,17 @@ export default function Home() {
             return (
               <Grow in={true} timeout={400 + idx * 80} key={item._id || item.id || idx}>
                 <Link href={`/novel/${item.id}`} style={{ textDecoration: 'none' }}>
-                  <Box
-                    sx={{
+              <Box
+                sx={{
                       width: 140, // Fixed width for all cards
                       height: 150, // Fixed height for all cards
                       minWidth: 140, // Ensure consistent minimum width
                       maxWidth: 140, // Ensure consistent maximum width
-                      position: 'relative',
-                      flexShrink: 0,
+                  position: 'relative',
+                  flexShrink: 0,
                       cursor: 'pointer',
-                    }}
-                  >
+                }}
+              >
                     <Card sx={{ 
                       borderRadius: 3, 
                       overflow: 'hidden', 
@@ -194,7 +194,7 @@ export default function Home() {
                           display: 'block' // Ensure consistent display
                         }} 
                       />
-                    </Card>
+                </Card>
                     <Box sx={{ 
                       position: 'absolute', 
                       bottom: -10, 
@@ -213,245 +213,245 @@ export default function Home() {
                       justifyContent: 'center', 
                       boxShadow: 2 
                     }}>
-                      {idx + 1}
-                    </Box>
-                  </Box>
+                  {idx + 1}
+                </Box>
+              </Box>
                 </Link>
-              </Grow>
+            </Grow>
             );
           })}
             </Box>
-          </Box>
+        </Box>
         )}
 
         <Box sx={{ p: 2, pt: trending.length > 0 ? 0 : 2 }}>
-          {/* Banner Slider */}
+        {/* Banner Slider */}
           <Box sx={{ mt: trending.length > 0 ? 1 : 0 }} />
-          <Fade in={true} timeout={500}>
+        <Fade in={true} timeout={500}>
             <Box sx={{ mb: 1.5, position: 'relative' }}>
-              <Slider {...sliderSettings} className="banner-slider">
-                {bannerSlides.map((slide, idx) => (
-                  <Paper key={idx} elevation={3} sx={{ borderRadius: 3, overflow: 'hidden', position: 'relative', minHeight: 80 }}>
-                    <Box sx={{ position: 'relative', height: 80, bgcolor: '#000' }}>
-                      <img src={slide.img} alt={slide.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7 }} />
-                      <Box sx={{ 
-                        position: 'absolute', 
-                        top: 0, 
-                        left: 0, 
-                        width: '100%', 
-                        height: '100%', 
-                        display: 'flex', 
-                        flexDirection: 'column', 
-                        justifyContent: 'space-between', 
-                        p: 1,
-                        pb: 2.5
+            <Slider {...sliderSettings} className="banner-slider">
+              {bannerSlides.map((slide, idx) => (
+                <Paper key={idx} elevation={3} sx={{ borderRadius: 3, overflow: 'hidden', position: 'relative', minHeight: 80 }}>
+                  <Box sx={{ position: 'relative', height: 80, bgcolor: '#000' }}>
+                    <img src={slide.img} alt={slide.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7 }} />
+                    <Box sx={{ 
+                      position: 'absolute', 
+                      top: 0, 
+                      left: 0, 
+                      width: '100%', 
+                      height: '100%', 
+                      display: 'flex', 
+                      flexDirection: 'column', 
+                      justifyContent: 'space-between', 
+                      p: 1,
+                      pb: 2.5
+                    }}>
+                      <Typography variant="h4" sx={{ 
+                        color: slide.color, 
+                        fontWeight: 700, 
+                        letterSpacing: 1, 
+                        fontFamily: 'monospace', 
+                        textShadow: '2px 2px 8px #000',
+                        fontSize: '0.9rem'
                       }}>
-                        <Typography variant="h4" sx={{ 
-                          color: slide.color, 
-                          fontWeight: 700, 
-                          letterSpacing: 1, 
-                          fontFamily: 'monospace', 
-                          textShadow: '2px 2px 8px #000',
-                          fontSize: '0.9rem'
-                        }}>
-                          {slide.title}
-                        </Typography>
-                        <Typography variant="caption" sx={{ 
-                          color: '#fff', 
-                          alignSelf: 'flex-end', 
-                          textShadow: '1px 1px 6px #000',
-                          fontSize: '0.6rem'
-                        }}>{slide.author}</Typography>
-                      </Box>
+                        {slide.title}
+                      </Typography>
+                      <Typography variant="caption" sx={{ 
+                        color: '#fff', 
+                        alignSelf: 'flex-end', 
+                        textShadow: '1px 1px 6px #000',
+                        fontSize: '0.6rem'
+                      }}>{slide.author}</Typography>
                     </Box>
-                  </Paper>
-                ))}
-              </Slider>
-              <style jsx global>{`
-                .banner-slider .slick-dots {
-                  position: absolute !important;
-                  bottom: 12px !important;
-                  left: 0;
-                  right: 0;
-                  margin: 0 auto;
-                  width: 100%;
-                  display: flex !important;
-                  justify-content: center;
-                  z-index: 2;
-                }
-                .banner-slider .slick-dots li button:before {
-                  color: #fff !important;
-                  opacity: 0.9;
-                  font-size: 10px;
-                }
-                .banner-slider .slick-dots li.slick-active button:before {
-                  color: #1976d2 !important;
-                  opacity: 1;
-                }
-              `}</style>
-            </Box>
-          </Fade>
-
-          {/* New Release */}
-          <Box sx={{ mt: 1.5 }} />
-          <Fade in={true} timeout={700}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>New Release</Typography></Fade>
-          <Box
-            sx={{
-              display: 'flex',
-              gap: 2,
-              overflowX: 'auto',
-              mb: 1.5,
-              pb: 1,
-              px: 1,
-              scrollbarWidth: 'none',
-              '&::-webkit-scrollbar': { display: 'none' },
-              scrollBehavior: 'smooth',
-            }}
-          >
-            {newReleases.map((item, idx) => (
-              <Grow in={true} timeout={400 + idx * 80} key={idx}>
-                <Box
-                  sx={{
-                    minWidth: 120,
-                    maxWidth: 160,
-                    height: 80,
-                    display: 'flex',
-                    alignItems: 'center',
-                    bgcolor: item.bg,
-                    borderRadius: 3,
-                    overflow: 'hidden',
-                    boxShadow: 2,
-                    position: 'relative',
-                    flexShrink: 0,
-                  }}
-                >
-                  <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
-                    <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, mb: 0.5, fontSize: 14 }}>{item.title}</Typography>
-                    <Typography variant="body2" sx={{ color: '#444', fontSize: 11 }}>{item.author}</Typography>
                   </Box>
-                  <Box sx={{ height: '100%', width: 60, position: 'relative', zIndex: 1 }}>
-                    <img src={item.img} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'cover', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} />
-                  </Box>
-                </Box>
-              </Grow>
-            ))}
+                </Paper>
+              ))}
+            </Slider>
+            <style jsx global>{`
+              .banner-slider .slick-dots {
+                position: absolute !important;
+                bottom: 12px !important;
+                left: 0;
+                right: 0;
+                margin: 0 auto;
+                width: 100%;
+                display: flex !important;
+                justify-content: center;
+                z-index: 2;
+              }
+              .banner-slider .slick-dots li button:before {
+                color: #fff !important;
+                opacity: 0.9;
+                font-size: 10px;
+              }
+              .banner-slider .slick-dots li.slick-active button:before {
+                color: #1976d2 !important;
+                opacity: 1;
+              }
+            `}</style>
           </Box>
+        </Fade>
 
-          {/* Mall */}
+        {/* New Release */}
           <Box sx={{ mt: 1.5 }} />
-          <Fade in={true} timeout={800}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Mall</Typography></Fade>
-          <Box
-            sx={{
-              display: 'flex',
-              gap: 2,
-              overflowX: 'auto',
+        <Fade in={true} timeout={700}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>New Release</Typography></Fade>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            overflowX: 'auto',
               mb: 1.5,
-              pb: 1,
-              px: 1,
-              scrollbarWidth: 'none',
-              '&::-webkit-scrollbar': { display: 'none' },
-              scrollBehavior: 'smooth',
-            }}
-          >
-            {mallItems.map((item, idx) => (
-              <Grow in={true} timeout={400 + idx * 80} key={idx}>
-                <Box
-                  sx={{
-                    minWidth: 120,
-                    maxWidth: 160,
-                    height: 80,
-                    bgcolor: item.bg,
-                    borderRadius: 4,
-                    display: 'flex',
-                    alignItems: 'center',
-                    boxShadow: 3,
-                    position: 'relative',
-                    overflow: 'hidden',
-                    px: 1,
-                    flexShrink: 0,
-                  }}
-                >
-                  <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 2 }}>
-                    <Typography variant="h6" sx={{ color: '#fff', fontWeight: 700, mb: 0.5, fontSize: 14 }}>{item.title}</Typography>
-                    <Typography variant="subtitle2" sx={{ color: '#fff', fontWeight: 400, fontSize: 11 }}>{item.edition}</Typography>
-                  </Box>
-                  <Box sx={{ height: 50, width: 45, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', zIndex: 1 }}>
-                    <img src={item.img} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'contain', background: 'none', border: 'none' }} />
-                  </Box>
+            pb: 1,
+            px: 1,
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            scrollBehavior: 'smooth',
+          }}
+        >
+          {newReleases.map((item, idx) => (
+            <Grow in={true} timeout={400 + idx * 80} key={idx}>
+              <Box
+                sx={{
+                  minWidth: 120,
+                  maxWidth: 160,
+                  height: 80,
+                  display: 'flex',
+                  alignItems: 'center',
+                  bgcolor: item.bg,
+                  borderRadius: 3,
+                  overflow: 'hidden',
+                  boxShadow: 2,
+                  position: 'relative',
+                  flexShrink: 0,
+                }}
+              >
+                <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
+                  <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, mb: 0.5, fontSize: 14 }}>{item.title}</Typography>
+                  <Typography variant="body2" sx={{ color: '#444', fontSize: 11 }}>{item.author}</Typography>
                 </Box>
-              </Grow>
-            ))}
-          </Box>
+                <Box sx={{ height: '100%', width: 60, position: 'relative', zIndex: 1 }}>
+                  <img src={item.img} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'cover', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} />
+                </Box>
+              </Box>
+            </Grow>
+          ))}
+        </Box>
+
+        {/* Mall */}
+          <Box sx={{ mt: 1.5 }} />
+        <Fade in={true} timeout={800}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Mall</Typography></Fade>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            overflowX: 'auto',
+              mb: 1.5,
+            pb: 1,
+            px: 1,
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            scrollBehavior: 'smooth',
+          }}
+        >
+          {mallItems.map((item, idx) => (
+            <Grow in={true} timeout={400 + idx * 80} key={idx}>
+              <Box
+                sx={{
+                  minWidth: 120,
+                  maxWidth: 160,
+                  height: 80,
+                  bgcolor: item.bg,
+                  borderRadius: 4,
+                  display: 'flex',
+                  alignItems: 'center',
+                  boxShadow: 3,
+                  position: 'relative',
+                  overflow: 'hidden',
+                  px: 1,
+                  flexShrink: 0,
+                }}
+              >
+                <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 2 }}>
+                  <Typography variant="h6" sx={{ color: '#fff', fontWeight: 700, mb: 0.5, fontSize: 14 }}>{item.title}</Typography>
+                  <Typography variant="subtitle2" sx={{ color: '#fff', fontWeight: 400, fontSize: 11 }}>{item.edition}</Typography>
+                </Box>
+                <Box sx={{ height: 50, width: 45, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', zIndex: 1 }}>
+                  <img src={item.img} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'contain', background: 'none', border: 'none' }} />
+                </Box>
+              </Box>
+            </Grow>
+          ))}
+        </Box>
 
           {/* Most listen audio - COMMENTED OUT */}
           {/*
           <Box sx={{ mt: 1.5 }} />
-          <Fade in={true} timeout={900}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Most listen audio</Typography></Fade>
-          <Box
-            sx={{
-              display: 'flex',
-              gap: 2,
-              overflowX: 'auto',
+        <Fade in={true} timeout={900}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Most listen audio</Typography></Fade>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            overflowX: 'auto',
               mb: 1.5,
-              pb: 1,
-              px: 1,
-              scrollbarWidth: 'none',
-              '&::-webkit-scrollbar': { display: 'none' },
-              scrollBehavior: 'smooth',
-            }}
-          >
-            {mostListenAudio.length === 0 ? (
-              <Typography sx={{ p: 2 }}>No audio books found.</Typography>
-            ) : mostListenAudio.map((item, idx) => (
-              <Grow in={true} timeout={400 + idx * 80} key={item._id || idx}>
-                <Box
-                  sx={{
-                    minWidth: 120,
-                    maxWidth: 160,
-                    height: 80,
-                    display: 'flex',
-                    alignItems: 'center',
-                    bgcolor: '#ffe082',
-                    borderRadius: 3,
-                    overflow: 'hidden',
-                    boxShadow: 2,
-                    position: 'relative',
-                    flexShrink: 0,
-                  }}
-                >
-                  <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
-                    <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, mb: 0.5, fontSize: 14 }}>{item.title}</Typography>
-                    <Typography variant="body2" sx={{ color: '#444', fontSize: 11 }}>{item.role}</Typography>
-                  </Box>
-                  <Box sx={{ height: '100%', width: 60, position: 'relative', zIndex: 1 }}>
-                    <img src={getImageUrl(item.iconPath || item.icon || item.novelIcon)} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'cover', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} />
-                  </Box>
+            pb: 1,
+            px: 1,
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            scrollBehavior: 'smooth',
+          }}
+        >
+          {mostListenAudio.length === 0 ? (
+            <Typography sx={{ p: 2 }}>No audio books found.</Typography>
+          ) : mostListenAudio.map((item, idx) => (
+            <Grow in={true} timeout={400 + idx * 80} key={item._id || idx}>
+              <Box
+                sx={{
+                  minWidth: 120,
+                  maxWidth: 160,
+                  height: 80,
+                  display: 'flex',
+                  alignItems: 'center',
+                  bgcolor: '#ffe082',
+                  borderRadius: 3,
+                  overflow: 'hidden',
+                  boxShadow: 2,
+                  position: 'relative',
+                  flexShrink: 0,
+                }}
+              >
+                <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
+                  <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, mb: 0.5, fontSize: 14 }}>{item.title}</Typography>
+                  <Typography variant="body2" sx={{ color: '#444', fontSize: 11 }}>{item.role}</Typography>
                 </Box>
-              </Grow>
-            ))}
-          </Box>
+                <Box sx={{ height: '100%', width: 60, position: 'relative', zIndex: 1 }}>
+                  <img src={getImageUrl(item.iconPath || item.icon || item.novelIcon)} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'cover', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} />
+                </Box>
+              </Box>
+            </Grow>
+          ))}
+        </Box>
           */}
 
           {/* Read Novel */}
           <Box sx={{ mt: 1.5 }} />
           <Fade in={true} timeout={1000}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Read Novel</Typography></Fade>
-          <Box
-            sx={{
-              display: 'flex',
-              gap: 2,
-              overflowX: 'auto',
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            overflowX: 'auto',
               mb: 1.5,
-              pb: 1,
-              px: 1,
-              scrollbarWidth: 'none',
-              '&::-webkit-scrollbar': { display: 'none' },
-              scrollBehavior: 'smooth',
-            }}
-          >
+            pb: 1,
+            px: 1,
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            scrollBehavior: 'smooth',
+          }}
+        >
             {loading ? (
               <Typography sx={{ p: 2 }}>Loading graphic novels...</Typography>
             ) : graphicNovels.length === 0 ? (
-              <Typography sx={{ p: 2 }}>No graphic novels found.</Typography>
+            <Typography sx={{ p: 2 }}>No graphic novels found.</Typography>
             ) : graphicNovels.map((item, idx) => {
               // Get Novel Image: Use novelIcon or first episode's iconPath as fallback
               const novelImage = item.novelIcon || 
@@ -464,18 +464,18 @@ export default function Home() {
               return (
                 <Grow in={true} timeout={400 + idx * 80} key={item.id || idx}>
                   <Link href={`/novel/${item.id}`} style={{ textDecoration: 'none' }}>
-                    <Box
-                      sx={{
+              <Box
+                sx={{
                         width: 140, // Fixed width to match Trending cards
                         height: 150, // Fixed height to match Trending cards
                         minWidth: 140, // Ensure consistent minimum width
                         maxWidth: 140, // Ensure consistent maximum width
-                        flexShrink: 0,
-                        textDecoration: 'none',
+                  flexShrink: 0,
+                  textDecoration: 'none',
                         cursor: 'pointer',
                         position: 'relative',
-                      }}
-                    >
+                }}
+              >
                       <Card sx={{ 
                         borderRadius: 3, 
                         overflow: 'hidden', 
@@ -524,10 +524,10 @@ export default function Home() {
                             {novelTitle}
                           </Typography>
                         </Box>
-                      </Card>
-                    </Box>
+                </Card>
+              </Box>
                   </Link>
-                </Grow>
+            </Grow>
               );
             })}
           </Box>
