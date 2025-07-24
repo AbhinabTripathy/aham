@@ -210,7 +210,14 @@ export default function EpisodeReaderPage() {
           </Box>
         </Paper>
         
-        <Box sx={{ overflowY: 'auto', flex: 1 }}>
+                                <Box sx={{ 
+                          overflowY: 'auto', 
+                          flex: 1,
+                          willChange: 'scroll-position',
+                          transform: 'translateZ(0)',
+                          contain: 'layout style paint',
+                          backfaceVisibility: 'hidden'
+                        }}>
           
           
           {(() => {
@@ -288,7 +295,13 @@ export default function EpisodeReaderPage() {
                     flex: 1,
                     bgcolor: '#2C2C54',
                     overflow: 'auto',
-                    padding: '0'
+                    padding: '0',
+                    scrollBehavior: 'auto',
+                    WebkitOverflowScrolling: 'touch',
+                    willChange: 'scroll-position',
+                    transform: 'translateZ(0)',
+                    contain: 'layout style paint',
+                    backfaceVisibility: 'hidden'
                   }}>
                     {/* Show fallback iframe if react-pdf fails or takes too long */}
                     {showFallback ? (
@@ -343,6 +356,14 @@ export default function EpisodeReaderPage() {
                               </Typography>
                             </Box>
                           }
+                          options={{
+                            cMapUrl: 'https://unpkg.com/pdfjs-dist@3.4.120/cmaps/',
+                            cMapPacked: true,
+                            standardFontDataUrl: 'https://unpkg.com/pdfjs-dist@3.4.120/standard_fonts/',
+                            disableAutoFetch: true,
+                            disableStream: true,
+                            disableRange: true
+                          }}
                         >
                           {numPages && Array.from({ length: numPages }, (_, index) => (
                             <Box 
@@ -352,12 +373,15 @@ export default function EpisodeReaderPage() {
                                 justifyContent: 'center',
                                 width: '100%',
                                 padding: '0',
-                                flex: 1
+                                flex: 1,
+                                willChange: 'transform',
+                                transform: 'translateZ(0)',
+                                contain: 'layout style paint'
                               }}
                             >
                               <Page
                                 pageNumber={index + 1}
-                                scale={1.0}
+                                scale={0.8}
                                 width="100%"
                                 loading={
                                   <Box sx={{ 
@@ -374,6 +398,9 @@ export default function EpisodeReaderPage() {
                                 }
                                 renderTextLayer={false}
                                 renderAnnotationLayer={false}
+                                renderInteractiveForms={false}
+                                optimizeMemoryUsage={true}
+                                canvasBackground="transparent"
                               />
                             </Box>
                           ))}
