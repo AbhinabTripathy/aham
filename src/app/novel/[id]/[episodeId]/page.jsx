@@ -211,19 +211,7 @@ export default function EpisodeReaderPage() {
         </Paper>
         
         <Box sx={{ overflowY: 'auto', flex: 1 }}>
-                     {/* Debug info - show in development only */}
-           {process.env.NODE_ENV === 'development' && (
-             <Box sx={{ p: 2, bgcolor: '#f0f0f0', fontSize: '0.8rem', mb: 2 }}>
-               <Typography variant="h6" sx={{ mb: 1 }}>🔍 Debug Information:</Typography>
-               <Typography><strong>Graphic Novel ID:</strong> {params.id}</Typography>
-               <Typography><strong>Episode ID:</strong> {params.episodeId}</Typography>
-               <Typography><strong>API Endpoint:</strong> /api/graphic-novels/{params.id}/episodes/{params.episodeId}</Typography>
-               <Typography sx={{ mt: 1 }}><strong>Episode Data:</strong></Typography>
-               <pre style={{ fontSize: '0.7rem', maxHeight: '150px', overflow: 'auto' }}>
-                 {JSON.stringify(episodeData, null, 2)}
-               </pre>
-             </Box>
-           )}
+          
           
           {(() => {
             if (!episodeData) {
@@ -287,54 +275,41 @@ export default function EpisodeReaderPage() {
               return (
                 <Box sx={{ 
                   width: '100%', 
-                  minHeight: '100vh',
-                  bgcolor: '#2C2C54'
+                  height: '100vh',
+                  bgcolor: '#2C2C54',
+                  display: 'flex',
+                  flexDirection: 'column'
                 }}>
-                  {/* Clean Header like second image */}
-                  <Box sx={{ 
-                    p: 3, 
-                    bgcolor: '#2C2C54',
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2
-                  }}>
-                    <IconButton sx={{ color: 'white' }} onClick={() => router.back()}>
-                      <ArrowBackIcon />
-                    </IconButton>
-                    <Box>
-                      <Typography variant="h5" sx={{ fontWeight: 600, mb: 0.5 }}>
-                        {episodeData?.graphicNovel?.title}
-                      </Typography>
-                      <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                        Episode {episodeData?.episodeNumber}
-                      </Typography>
-                    </Box>
-                  </Box>
+
 
                   {/* Full-Screen PDF Content - Show Complete Data */}
                   <Box sx={{ 
                     width: '100%',
-                    minHeight: 'calc(100vh - 120px)',
-                    bgcolor: '#f5f5f5',
+                    flex: 1,
+                    bgcolor: '#2C2C54',
                     overflow: 'auto',
-                    py: 2
+                    padding: '0'
                   }}>
                     {/* Show fallback iframe if react-pdf fails or takes too long */}
                     {showFallback ? (
                       <Box sx={{
                         width: '100%',
-                        height: 'calc(100vh - 140px)',
+                        height: '100vh',
                         display: 'flex',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '0',
+                        margin: '0'
                       }}>
                         <iframe
-                          src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&page=1&zoom=page-width`}
+                          src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&page=1&zoom=page-fit`}
                           width="100%"
                           height="100%"
                           style={{ 
                             border: 'none',
-                            maxWidth: '1200px'
+                            width: '100%',
+                            height: '100%',
+                            display: 'block'
                           }}
                           title={`Episode ${episodeData?.episodeNumber} PDF`}
                         />
@@ -344,7 +319,9 @@ export default function EpisodeReaderPage() {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        width: '100%'
+                        width: '100%',
+                        padding: '0',
+                        height: '100%'
                       }}>
                         <Document
                           file={pdfUrl}
@@ -353,12 +330,12 @@ export default function EpisodeReaderPage() {
                           loading={
                             <Box sx={{ 
                               width: '100%',
-                              height: '80vh',
+                              height: '300px',
                               display: 'flex',
                               flexDirection: 'column',
                               alignItems: 'center',
                               justifyContent: 'center',
-                              bgcolor: '#f5f5f5'
+                              bgcolor: '#2C2C54'
                             }}>
                               <CircularProgress size={50} />
                               <Typography variant="h6" sx={{ mt: 2 }}>
@@ -371,24 +348,26 @@ export default function EpisodeReaderPage() {
                             <Box 
                               key={`page_${index + 1}`}
                               sx={{
-                                mb: 2,
                                 display: 'flex',
                                 justifyContent: 'center',
-                                width: '100%'
+                                width: '100%',
+                                padding: '0',
+                                flex: 1
                               }}
                             >
                               <Page
                                 pageNumber={index + 1}
-                                scale={1.2}
+                                scale={1.0}
+                                width="100%"
                                 loading={
                                   <Box sx={{ 
                                     width: '100%',
-                                    minHeight: 600,
+                                    minHeight: 400,
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    bgcolor: 'white',
-                                    border: '1px solid #ddd'
+                                    bgcolor: '#2C2C54',
+                                    border: '1px solid #444'
                                   }}>
                                     <CircularProgress />
                                   </Box>
