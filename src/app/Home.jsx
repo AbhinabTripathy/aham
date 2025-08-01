@@ -122,7 +122,6 @@ export default function Home() {
       <Box sx={{ maxWidth: 480, mx: 'auto', bgcolor: '#fff' }}>
         <Header />
       </Box>
-      <Box sx={{ height: 16 }} />
       {/* Main Content Container */}
       <Box sx={{ 
         maxWidth: 480, 
@@ -136,7 +135,7 @@ export default function Home() {
         {/* Trending - Only show if there's content */}
         {trending.length > 0 && (
         <Box sx={{ p: 2, pt: 0 }}>
-        <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Trending</Typography></Fade>
+        <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black', lineHeight: 3.6 }}>Trending</Typography></Fade>
         <Box
           sx={{
             display: 'flex',

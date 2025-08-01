@@ -117,7 +117,7 @@ export default function AudioBook() {
       <Box sx={{ maxWidth: 480, mx: 'auto', bgcolor: '#fff' }}>
         <Header selectedNav="audiobook" searchPlaceholder="Audiobooks" />
       </Box>
-      <Box sx={{ height: 16 }} />
+      
       
       {/* Main Content Container - Coming Soon */}
       <Box sx={{ 
