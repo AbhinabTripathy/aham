@@ -67,12 +67,12 @@ export default function Novel() {
             </Box>
           ) : <>
           {/* Trending */}
-          <Box sx={{ mt: 2.5 }} />
+          <Box sx={{ mt: 0.5 }} />
           <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black', fontSize: 22 }}>Trending</Typography></Fade>
           <Box
             sx={{
               display: 'flex',
-              gap: 2.5,
+              gap: 1,
               overflowX: 'auto',
               mb: 2,
               pb: 1,
@@ -118,7 +118,7 @@ export default function Novel() {
           <Box
             sx={{
               display: 'flex',
-              gap: 2,
+              gap: 1,
               overflowX: 'auto',
               mb: 2,
               pb: 1,
@@ -164,7 +164,7 @@ export default function Novel() {
           <Box
             sx={{
               display: 'flex',
-              gap: 2,
+              gap: 1,
               overflowX: 'auto',
               mb: 2,
               pb: 1,

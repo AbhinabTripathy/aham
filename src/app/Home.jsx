@@ -135,11 +135,11 @@ export default function Home() {
         {/* Trending - Only show if there's content */}
         {trending.length > 0 && (
         <Box sx={{ p: 2, pt: 0 }}>
-        <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black', lineHeight: 3.6 }}>Trending</Typography></Fade>
+        <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 0, color: 'black', lineHeight: 2.6 }}>Trending</Typography></Fade>
         <Box
           sx={{
             display: 'flex',
-            gap: 2,
+            gap: 1,
             overflowX: 'auto',
                 mb: 1.5,
             pb: 1,
@@ -230,8 +230,8 @@ export default function Home() {
             <Box sx={{ mb: 1.5, position: 'relative' }}>
             <Slider {...sliderSettings} className="banner-slider">
               {bannerSlides.map((slide, idx) => (
-                <Paper key={idx} elevation={3} sx={{ borderRadius: 3, overflow: 'hidden', position: 'relative', minHeight: 80 }}>
-                  <Box sx={{ position: 'relative', height: 80, bgcolor: '#000' }}>
+                <Paper key={idx} elevation={3} sx={{ borderRadius: 3, overflow: 'hidden', position: 'relative', minHeight: 120 }}>
+                  <Box sx={{ position: 'relative', height: 160, bgcolor: '#000' }}>
                     <img src={slide.img} alt={slide.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7 }} />
                     <Box sx={{ 
                       position: 'absolute', 
@@ -297,7 +297,7 @@ export default function Home() {
         <Box
           sx={{
             display: 'flex',
-            gap: 2,
+            gap: 1,
             overflowX: 'auto',
               mb: 1.5,
             pb: 1,
@@ -342,7 +342,7 @@ export default function Home() {
         <Box
           sx={{
             display: 'flex',
-            gap: 2,
+            gap: 1,
             overflowX: 'auto',
               mb: 1.5,
             pb: 1,
@@ -437,7 +437,7 @@ export default function Home() {
         <Box
           sx={{
             display: 'flex',
-            gap: 2,
+            gap: 1,
             overflowX: 'auto',
               mb: 1.5,
             pb: 1,

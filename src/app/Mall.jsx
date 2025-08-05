@@ -168,7 +168,7 @@ export default function Mall() {
           </div>
           <div style={{ 
             display: 'flex', 
-            gap: 12, 
+            gap: 4, 
             overflowX: 'auto', 
             scrollbarWidth: 'none',
             scrollBehavior: 'smooth',
@@ -214,7 +214,7 @@ export default function Mall() {
           </div>
           <div style={{ 
             display: 'flex', 
-            gap: 12, 
+            gap: 4, 
             overflowX: 'auto', 
             scrollbarWidth: 'none',
             scrollBehavior: 'smooth',

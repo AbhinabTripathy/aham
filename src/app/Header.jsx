@@ -606,6 +606,50 @@ export default function Header({ selectedNav = 'home', searchPlaceholder = 'Grap
                 style={{ objectFit: 'contain', width: '100%', height: '100%' }}
               />
             </Box>
+            
+            {/* Search Bar - Compact version */}
+            <Paper
+              component="form"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                borderRadius: 20,
+                boxShadow: 1,
+                bgcolor: 'rgba(255,255,255,0.9)',
+                p: { xs: '1px 4px', sm: '1px 6px' },
+                width: { xs: '35%', sm: '40%' },
+                maxWidth: 150,
+                height: { xs: 24, sm: 28 },
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  boxShadow: 2,
+                  bgcolor: '#fff'
+                },
+                '&:focus-within': {
+                  boxShadow: 2,
+                  bgcolor: '#fff'
+                }
+              }}
+            >
+              <SearchIcon sx={{ color: '#666', fontSize: { xs: 12, sm: 14 }, ml: 0.5 }} />
+              <InputBase
+                sx={{ 
+                  ml: 0.5, 
+                  flex: 1, 
+                  fontSize: { xs: 9, sm: 11 },
+                  '& .MuiInputBase-input': { 
+                    p: '2px 4px',
+                    '&::placeholder': {
+                      fontSize: { xs: 9, sm: 11 },
+                      opacity: 0.7
+                    }
+                  }
+                }}
+                placeholder={`Search...`}
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Paper>
+            
             <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1.5 } }}>
               {/* Dark mode toggle */}
               <Box
@@ -715,38 +759,7 @@ export default function Header({ selectedNav = 'home', searchPlaceholder = 'Grap
               />
             </Box>
           </Box>
-          {/* Search Bar */}
-          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', mt: { xs: 1.5, sm: 2 }, px: { xs: 1, sm: 0 } }}>
-            <Paper
-              component="form"
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                borderRadius: 3,
-                boxShadow: 1,
-                bgcolor: '#fff',
-                p: { xs: '1px 6px', sm: '2px 10px' },
-                width: { xs: '100%', sm: '75%' },
-                maxWidth: 300,
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  boxShadow: 2,
-                  transform: 'translateY(-1px)'
-                },
-                '&:focus-within': {
-                  boxShadow: 3,
-                  transform: 'translateY(-1px)'
-                }
-              }}
-            >
-              <SearchIcon sx={{ color: '#888', mr: 0.5, fontSize: { xs: 16, sm: 20 } }} />
-              <InputBase
-                sx={{ ml: 0.5, flex: 1, fontSize: { xs: 12, sm: 15 } }}
-                placeholder={`Search "${searchPlaceholder}"`}
-                inputProps={{ 'aria-label': 'search graphic novels' }}
-              />
-            </Paper>
-          </Box>
+          {/* Search Bar removed from here - now in top row */}
           {/* Navigation Bar */}
           <Box
             sx={{
