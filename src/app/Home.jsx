@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import { Box, Typography, Grid, Card, CardContent, CardMedia, Button, Avatar, TextField, InputAdornment, IconButton, Paper, Grow, Fade } from '@mui/material';
@@ -74,7 +74,60 @@ export default function Home() {
   const [graphicNovels, setGraphicNovels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [contentSections, setContentSections] = useState([]);
+  const observerRef = useRef(null);
+  
+  // Function to shuffle array
+  const shuffleArray = (array) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
 
+  // Initialize content sections
+  useEffect(() => {
+    // Define the section types
+    const sectionTypes = ['trending', 'banner', 'threads', 'mall', 'novel'];
+    // Initialize with one set of sections
+    setContentSections([...sectionTypes]);
+  }, []);
+  
+  // Handle intersection observer for infinite scroll
+  const handleObserver = useCallback((entries) => {
+    const [entry] = entries;
+    if (entry.isIntersecting) {
+      // When we reach the observer, add more shuffled sections
+      setContentSections(prev => {
+        const sectionTypes = ['trending', 'banner', 'threads', 'mall', 'novel'];
+        const newSections = shuffleArray([...sectionTypes]);
+        return [...prev, ...newSections];
+      });
+    }
+  }, []);
+  
+  // Set up the intersection observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleObserver, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    });
+    
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+    
+    return () => {
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
+    };
+  }, [handleObserver]);
+
+  // Fetch data
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -132,24 +185,32 @@ export default function Home() {
         position: 'relative',
         pb: 0
       }}>
-        {/* Trending - Only show if there's content */}
-        {trending.length > 0 && (
-        <Box sx={{ p: 2, pt: 0 }}>
-        <Fade in={true} timeout={600}><Typography variant="h6" sx={{ fontWeight: 700, mb: 0, color: 'black', lineHeight: 2.6 }}>Trending</Typography></Fade>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 1,
-            overflowX: 'auto',
-                mb: 1.5,
-            pb: 1,
-            px: 1,
-            scrollbarWidth: 'none',
-            '&::-webkit-scrollbar': { display: 'none' },
-            scrollBehavior: 'smooth',
-          }}
-        >
-                        {trending.map((item, idx) => {
+        {/* Render sections based on contentSections array */}
+        {contentSections.map((sectionType, sectionIndex) => {
+          // Render different section types based on the array
+          switch(sectionType) {
+            case 'trending':
+              return trending.length > 0 && (
+                <Box key={`trending-${sectionIndex}`} sx={{ p: 2, pt: sectionIndex === 0 ? 0 : 2 }}>
+                  <Fade in={true} timeout={600}>
+                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 0, color: 'black', lineHeight: 1.6 }}>
+                      Trending
+                    </Typography>
+                  </Fade>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      gap: 1,
+                      overflowX: 'auto',
+                      mb: 1.5,
+                      pb: 1,
+                      px: 1,
+                      scrollbarWidth: 'none',
+                      '&::-webkit-scrollbar': { display: 'none' },
+                      scrollBehavior: 'smooth',
+                    }}
+                  >
+                    {trending.map((item, idx) => {
             // Get Novel Image: Use novelIcon or first episode's iconPath as fallback (same logic as Read Novel section)
             const trendingImage = item.novelIcon || 
                                 (item.episodes && item.episodes.length > 0 ? item.episodes[0].iconPath : null) ||
@@ -219,17 +280,23 @@ export default function Home() {
             </Grow>
             );
           })}
-            </Box>
-        </Box>
-        )}
-
-        <Box sx={{ p: 2, pt: trending.length > 0 ? 0 : 2 }}>
-        {/* Banner Slider */}
-          <Box sx={{ mt: trending.length > 0 ? 1 : 0 }} />
-        <Fade in={true} timeout={500}>
-            <Box sx={{ mb: 1.5, position: 'relative' }}>
-            <Slider {...sliderSettings} className="banner-slider">
-              {bannerSlides.map((slide, idx) => (
+                  </Box>
+                </Box>
+              );
+            
+            case 'banner':
+              return (
+                <Box key={`banner-${sectionIndex}`} sx={{ p: 2, pt: 0 }}>
+                  <Box sx={{ mt: 0 }} />
+                  <Fade in={true} timeout={500}>
+                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black', lineHeight: 1.6 }}>
+                      Banner
+                    </Typography>
+                  </Fade>
+                  <Fade in={true} timeout={500}>
+                    <Box sx={{ mb: 1.5, position: 'relative' }}>
+                      <Slider {...sliderSettings} className="banner-slider">
+                        {bannerSlides.map((slide, idx) => (
                 <Paper key={idx} elevation={3} sx={{ borderRadius: 3, overflow: 'hidden', position: 'relative', minHeight: 120 }}>
                   <Box sx={{ position: 'relative', height: 160, bgcolor: '#000' }}>
                     <img src={slide.img} alt={slide.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7 }} />
@@ -265,49 +332,57 @@ export default function Home() {
                   </Box>
                 </Paper>
               ))}
-            </Slider>
-            <style jsx global>{`
-              .banner-slider .slick-dots {
-                position: absolute !important;
-                bottom: 12px !important;
-                left: 0;
-                right: 0;
-                margin: 0 auto;
-                width: 100%;
-                display: flex !important;
-                justify-content: center;
-                z-index: 2;
-              }
-              .banner-slider .slick-dots li button:before {
-                color: #fff !important;
-                opacity: 0.9;
-                font-size: 10px;
-              }
-              .banner-slider .slick-dots li.slick-active button:before {
-                color: #1976d2 !important;
-                opacity: 1;
-              }
-            `}</style>
-          </Box>
-        </Fade>
-
-        {/* New Release */}
-          <Box sx={{ mt: 1.5 }} />
-        <Fade in={true} timeout={700}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>New Release</Typography></Fade>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 1,
-            overflowX: 'auto',
-              mb: 1.5,
-            pb: 1,
-            px: 1,
-            scrollbarWidth: 'none',
-            '&::-webkit-scrollbar': { display: 'none' },
-            scrollBehavior: 'smooth',
-          }}
-        >
-          {newReleases.map((item, idx) => (
+                      </Slider>
+                      <style jsx global>{`
+                        .banner-slider .slick-dots {
+                          position: absolute !important;
+                          bottom: 12px !important;
+                          left: 0;
+                          right: 0;
+                          margin: 0 auto;
+                          width: 100%;
+                          display: flex !important;
+                          justify-content: center;
+                          z-index: 2;
+                        }
+                        .banner-slider .slick-dots li button:before {
+                          color: #fff !important;
+                          opacity: 0.9;
+                          font-size: 10px;
+                        }
+                        .banner-slider .slick-dots li.slick-active button:before {
+                          color: #1976d2 !important;
+                          opacity: 1;
+                        }
+                      `}</style>
+                    </Box>
+                  </Fade>
+                </Box>
+              );
+              
+            case 'threads':
+              return (
+                <Box key={`threads-${sectionIndex}`} sx={{ p: 2, pt: 0 }}>
+                  <Box sx={{ mt: 1.5 }} />
+                  <Fade in={true} timeout={700}>
+                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>
+                      Threads
+                    </Typography>
+                  </Fade>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      gap: 1,
+                      overflowX: 'auto',
+                      mb: 1.5,
+                      pb: 1,
+                      px: 1,
+                      scrollbarWidth: 'none',
+                      '&::-webkit-scrollbar': { display: 'none' },
+                      scrollBehavior: 'smooth',
+                    }}
+                  >
+                    {newReleases.map((item, idx) => (
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
@@ -333,26 +408,34 @@ export default function Home() {
                 </Box>
               </Box>
             </Grow>
-          ))}
-        </Box>
-
-        {/* Mall */}
-          <Box sx={{ mt: 1.5 }} />
-        <Fade in={true} timeout={800}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Mall</Typography></Fade>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 1,
-            overflowX: 'auto',
-              mb: 1.5,
-            pb: 1,
-            px: 1,
-            scrollbarWidth: 'none',
-            '&::-webkit-scrollbar': { display: 'none' },
-            scrollBehavior: 'smooth',
-          }}
-        >
-          {mallItems.map((item, idx) => (
+                    ))}
+                  </Box>
+                </Box>
+              );
+              
+            case 'mall':
+              return (
+                <Box key={`mall-${sectionIndex}`} sx={{ p: 2, pt: 0 }}>
+                  <Box sx={{ mt: 1.5 }} />
+                  <Fade in={true} timeout={800}>
+                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black', lineHeight: 'normal' }}>
+                      Mall
+                    </Typography>
+                  </Fade>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      gap: 1,
+                      overflowX: 'auto',
+                      mb: 1.5,
+                      pb: 1,
+                      px: 1,
+                      scrollbarWidth: 'none',
+                      '&::-webkit-scrollbar': { display: 'none' },
+                      scrollBehavior: 'smooth',
+                    }}
+                  >
+                    {mallItems.map((item, idx) => (
             <Grow in={true} timeout={400 + idx * 80} key={idx}>
               <Box
                 sx={{
@@ -379,79 +462,38 @@ export default function Home() {
                 </Box>
               </Box>
             </Grow>
-          ))}
-        </Box>
-
-          {/* Most listen audio - COMMENTED OUT */}
-          {/*
-          <Box sx={{ mt: 1.5 }} />
-        <Fade in={true} timeout={900}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Most listen audio</Typography></Fade>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            overflowX: 'auto',
-              mb: 1.5,
-            pb: 1,
-            px: 1,
-            scrollbarWidth: 'none',
-            '&::-webkit-scrollbar': { display: 'none' },
-            scrollBehavior: 'smooth',
-          }}
-        >
-          {mostListenAudio.length === 0 ? (
-            <Typography sx={{ p: 2 }}>No audio books found.</Typography>
-          ) : mostListenAudio.map((item, idx) => (
-            <Grow in={true} timeout={400 + idx * 80} key={item._id || idx}>
-              <Box
-                sx={{
-                  minWidth: 120,
-                  maxWidth: 160,
-                  height: 80,
-                  display: 'flex',
-                  alignItems: 'center',
-                  bgcolor: '#ffe082',
-                  borderRadius: 3,
-                  overflow: 'hidden',
-                  boxShadow: 2,
-                  position: 'relative',
-                  flexShrink: 0,
-                }}
-              >
-                <Box sx={{ flex: 1, p: 1, zIndex: 2 }}>
-                  <Typography variant="h6" sx={{ color: '#111', fontWeight: 700, mb: 0.5, fontSize: 14 }}>{item.title}</Typography>
-                  <Typography variant="body2" sx={{ color: '#444', fontSize: 11 }}>{item.role}</Typography>
+                    ))}
+                  </Box>
                 </Box>
-                <Box sx={{ height: '100%', width: 60, position: 'relative', zIndex: 1 }}>
-                  <img src={getImageUrl(item.iconPath || item.icon || item.novelIcon)} alt={item.title} style={{ height: '100%', width: '100%', objectFit: 'cover', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} />
-                </Box>
-              </Box>
-            </Grow>
-          ))}
-        </Box>
-          */}
-
-          {/* Read Novel */}
-          <Box sx={{ mt: 1.5 }} />
-          <Fade in={true} timeout={1000}><Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>Read Novel</Typography></Fade>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 1,
-            overflowX: 'auto',
-              mb: 1.5,
-            pb: 1,
-            px: 1,
-            scrollbarWidth: 'none',
-            '&::-webkit-scrollbar': { display: 'none' },
-            scrollBehavior: 'smooth',
-          }}
-        >
-            {loading ? (
-              <Typography sx={{ p: 2 }}>Loading graphic novels...</Typography>
-            ) : graphicNovels.length === 0 ? (
-            <Typography sx={{ p: 2 }}>No graphic novels found.</Typography>
-            ) : graphicNovels.map((item, idx) => {
+              );
+              
+            case 'novel':
+              return (
+                <Box key={`novel-${sectionIndex}`} sx={{ p: 2, pt: 0 }}>
+                  <Box sx={{ mt: 1.5 }} />
+                  <Fade in={true} timeout={1000}>
+                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'black' }}>
+                      Read Novel
+                    </Typography>
+                  </Fade>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      gap: 1,
+                      overflowX: 'auto',
+                      mb: 1.5,
+                      pb: 1,
+                      px: 1,
+                      scrollbarWidth: 'none',
+                      '&::-webkit-scrollbar': { display: 'none' },
+                      scrollBehavior: 'smooth',
+                    }}
+                  >
+                    {loading ? (
+                      <Typography sx={{ p: 2 }}>Loading graphic novels...</Typography>
+                    ) : graphicNovels.length === 0 ? (
+                      <Typography sx={{ p: 2 }}>No graphic novels found.</Typography>
+                    ) : graphicNovels.map((item, idx) => {
               // Get Novel Image: Use novelIcon or first episode's iconPath as fallback
               const novelImage = item.novelIcon || 
                                (item.episodes && item.episodes.length > 0 ? item.episodes[0].iconPath : null) ||
@@ -527,10 +569,20 @@ export default function Home() {
               </Box>
                   </Link>
             </Grow>
+                      );
+                    })}
+                  </Box>
+                </Box>
               );
-            })}
-          </Box>
-        </Box>
+              
+            default:
+              return null;
+          }
+        })}
+        
+        {/* Observer element for infinite scroll */}
+        <Box ref={observerRef} sx={{ height: 20, width: '100%', mb: 2 }} />
+        
         <Footer />
       </Box>
     </Box>

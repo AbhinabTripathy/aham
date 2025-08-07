@@ -617,8 +617,8 @@ export default function Header({ selectedNav = 'home', searchPlaceholder = 'Grap
                 boxShadow: 1,
                 bgcolor: 'rgba(255,255,255,0.9)',
                 p: { xs: '1px 4px', sm: '1px 6px' },
-                width: { xs: '35%', sm: '40%' },
-                maxWidth: 150,
+                width: { xs: '45%', sm: '50%' },
+                maxWidth: 210,
                 height: { xs: 24, sm: 28 },
                 transition: 'all 0.2s ease',
                 '&:hover': {
